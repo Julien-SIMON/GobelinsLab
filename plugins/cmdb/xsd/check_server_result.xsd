@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="XML">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="HEADER" minOccurs="1" maxOccurs="1" />
+			<xs:element name="DATA"  minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SERVER" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element type="xs:string" name="NAME"/>
+
+									<xs:element name="INSTANCES" minOccurs="1" maxOccurs="1">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="INSTANCE" minOccurs="0" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element type="xs:string" name="TYPE"/>
+															<xs:element type="xs:string" name="NAME"/>
+															
+															<xs:element name="DATABASES" minOccurs="1" maxOccurs="1">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="DATABASE" minOccurs="0" maxOccurs="unbounded">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element type="xs:string" name="NAME"/>
+																					<xs:element type="xs:string" name="STARTUP_TIME"/>
+																					<xs:element type="xs:string" name="STATUS"/>
+																					<xs:element type="xs:string" name="ARCHIVER"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>	
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>	
+															
+															<xs:element name="BACKUPS" minOccurs="0" maxOccurs="1">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="BACKUP" minOccurs="0" maxOccurs="unbounded">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element type="xs:string" name="DATABASE_NAME"/>
+																					<xs:element type="xs:string" name="TYPE"/>
+																					<xs:element type="xs:string" name="COMPLETION_TIME"/>
+																					<xs:element type="xs:string" name="ELAPSED_TIME"/>
+																					<xs:element type="xs:string" name="STATUS"/>
+																					<xs:element type="xs:string" name="FILE_NAME"/>
+																					<xs:element type="xs:string" name="FILE_SIZE"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>	
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+
+															<xs:element name="FILEGROUPS" minOccurs="0" maxOccurs="1">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="FILEGROUP" minOccurs="0" maxOccurs="unbounded">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element type="xs:string" name="DATABASE_NAME"/>
+																					<xs:element type="xs:string" name="NAME"/>
+																					<xs:element type="xs:string" name="SIZE"/>
+																					<xs:element type="xs:string" name="FREESPACE"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>	
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>	
+															
+															<xs:element name="FILES" minOccurs="0" maxOccurs="1">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element name="FILE" minOccurs="0" maxOccurs="unbounded">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element type="xs:string" name="DATABASE_NAME"/>
+																					<xs:element type="xs:string" name="TYPE"/>
+																					<xs:element type="xs:string" name="PATH"/>
+																					<xs:element type="xs:string" name="STORE"/>
+																					<xs:element type="xs:string" name="SIZE"/>
+																					<xs:element type="xs:string" name="MAXSIZE"/>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>	
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>	
+															
+															<xs:element name="DBLINK" minOccurs="1" maxOccurs="1">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element type="xs:string" name="PORT"/>
+																		<xs:element type="xs:string" name="STATUS"/>
+																		<xs:element type="xs:string" name="CODE"/>
+																		<xs:element type="xs:string" name="VERSION"/>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>	
+												
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>	
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>	
+									
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>

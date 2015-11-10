@@ -1,0 +1,31 @@
+$(function () {
+	// hide shadow box and adapt page height to pannel content
+	$("#ui-navmenu-pannel-link").buttonMarkup({ shadow: false }); // On désactive les ombres du bouton
+	$("#ui-navmenu-pannel").trigger( "updatelayout" ); // On met à jour la hauteur de la fenêtre suivant le contenu des "pannel"
+	$("#ui-infos-pannel-link").buttonMarkup({ shadow: false }); // On désactive les ombres du bouton
+	$("#ui-infos-pannel").trigger( "updatelayout" ); // On met à jour la hauteur de la fenêtre suivant le contenu des "pannel"
+});
+
+function nl2br(str, is_xhtml) {
+  //  discuss at: http://phpjs.org/functions/nl2br/
+  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  // improved by: Philip Peterson
+  // improved by: Onno Marsman
+  // improved by: Atli Þór
+  // improved by: Brett Zamir (http://brett-zamir.me)
+  // improved by: Maximusya
+  // bugfixed by: Onno Marsman
+  // bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  //    input by: Brett Zamir (http://brett-zamir.me)
+  //   example 1: nl2br('Kevin\nvan\nZonneveld');
+  //   returns 1: 'Kevin<br />\nvan<br />\nZonneveld'
+  //   example 2: nl2br("\nOne\nTwo\n\nThree\n", false);
+  //   returns 2: '<br>\nOne<br>\nTwo<br>\n<br>\nThree<br>\n'
+  //   example 3: nl2br("\nOne\nTwo\n\nThree\n", true);
+  //   returns 3: '<br />\nOne<br />\nTwo<br />\n<br />\nThree<br />\n'
+
+  var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br ' + '/>' : '<br>'; // Adjust comment to avoid issue on phpjs.org display
+
+  return (str + '')
+    .replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
+}

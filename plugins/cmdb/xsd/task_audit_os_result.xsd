@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="XML">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="HEADER" minOccurs="1" maxOccurs="1" />
+			<xs:element name="DATA"  minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SERVERS" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SERVER" maxOccurs="unbounded" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element type="xs:string" name="NAME"/>
+												
+												<xs:element name="OSES" minOccurs="0" maxOccurs="1">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="OS" maxOccurs="unbounded" minOccurs="0">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element type="xs:string" name="TYPE" />
+																		<xs:element type="xs:string" name="PORT" />
+																		
+																		<xs:element type="xs:string" name="NAME" />
+																		<xs:element type="xs:string" name="VERSION" />
+																		<xs:element type="xs:string" name="ARCHITECTURE" />
+																		<xs:element type="xs:string" name="SERIALNUMBER" minOccurs="0" maxOccurs="1" />
+																		<xs:element type="xs:string" name="INSTALLDATE" minOccurs="0" maxOccurs="1" />
+																		<xs:element type="xs:string" name="LASTBOOTDATE" />
+																		<xs:element type="xs:string" name="MEMORYSIZE" />
+																		
+																		<xs:element name="CPUS" minOccurs="0" maxOccurs="1">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="CPU" maxOccurs="unbounded" minOccurs="1">
+																						<xs:complexType>
+																							<xs:all>
+																								<xs:element type="xs:string" name="DEVICEID" />
+																								<xs:element type="xs:string" name="MAXCLOCKSPEED" />
+																								<xs:element type="xs:string" name="NAME" />
+																							</xs:all>
+																						</xs:complexType>
+																					</xs:element>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																		
+																		<xs:element name="DISKS" minOccurs="0" maxOccurs="1">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="DISK" maxOccurs="unbounded" minOccurs="1">
+																						<xs:complexType>
+																							<xs:sequence>
+																								<xs:element type="xs:string" name="NAME" />
+																								<xs:element type="xs:string" name="INTERFACETYPE" />
+																								<xs:element type="xs:string" name="SIZE" />
+																								<xs:element type="xs:string" name="DESCRIPTION" />
+																								<xs:element type="xs:string" name="FIRMWAREREVISION" />
+																								<xs:element type="xs:string" name="MANUFACTURER" />
+																								<xs:element type="xs:string" name="MODEL" />
+																								<xs:element type="xs:string" name="SERIALNUMBER" />
+																							</xs:sequence>
+																						</xs:complexType>
+																					</xs:element>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																		
+																		<xs:element name="FSS" minOccurs="0" maxOccurs="1">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="FS" maxOccurs="unbounded" minOccurs="1">
+																						<xs:complexType>
+																							<xs:sequence>
+																								<xs:element type="xs:string" name="NAME" />
+																								<xs:element type="xs:string" name="FILESYSTEM" />
+																								<xs:element type="xs:string" name="FREESPACE" />
+																								<xs:element type="xs:string" name="SIZE" />
+																								<xs:element type="xs:string" name="ALIAS" />
+																							</xs:sequence>
+																						</xs:complexType>
+																					</xs:element>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+
+																		<xs:element name="SERVICES" minOccurs="0" maxOccurs="1">
+																			<xs:complexType>
+																				<xs:sequence>
+																					<xs:element name="SERVICE" maxOccurs="unbounded" minOccurs="1">
+																						<xs:complexType>
+																							<xs:sequence>
+																								<xs:element type="xs:string" name="NAME" />
+																								<xs:element type="xs:string" name="PATHNAME" />
+																								<xs:element type="xs:string" name="STARTMODE" />
+																								<xs:element type="xs:string" name="STATE" />
+																								<xs:element type="xs:string" name="STARTNAME" />
+																							</xs:sequence>
+																						</xs:complexType>
+																					</xs:element>
+																				</xs:sequence>
+																			</xs:complexType>
+																		</xs:element>
+																		
+																		<xs:element type="xs:string" name="ETC_ORATAB" maxOccurs="1" minOccurs="0" />
+																		
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>

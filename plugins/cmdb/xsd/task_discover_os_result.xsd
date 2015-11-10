@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="XML">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="HEADER" minOccurs="1" maxOccurs="1" />
+			<xs:element name="DATA"  minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SERVERS" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SERVER" maxOccurs="unbounded" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element type="xs:string" name="NAME"/>
+												
+												<xs:element type="xs:string" name="CONNECT_STATUS"  minOccurs="0" maxOccurs="1" />
+												<xs:element type="xs:string" name="CONNECT_CODE"  minOccurs="0" maxOccurs="1" />
+												
+												<xs:element name="OSES" minOccurs="0" maxOccurs="1">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="OS" maxOccurs="unbounded" minOccurs="1">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element type="xs:string" name="NAME"/>
+																		<xs:element type="xs:string" name="PORT"/>
+																		
+																		<xs:element type="xs:string" name="CONNECT_STATUS"  minOccurs="0" maxOccurs="1" />
+																		<xs:element type="xs:string" name="CONNECT_CODE"  minOccurs="0" maxOccurs="1" />
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+												
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>

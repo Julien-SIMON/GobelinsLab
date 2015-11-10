@@ -1,0 +1,7 @@
+#: wp-comments-post.php:13
+msgid "#1"
+msgstr "Sorry, comments are closed for this item."
+
+#: wp-comments-post.php:29
+msgid "a"
+msgstr "Entschuldige, aber zum kommentieren musst du angemeldet sein."

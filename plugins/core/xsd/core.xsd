@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="XML">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="HEADER" minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PPID" type="xs:integer"/>
+						<xs:element name="DATE" type="xs:string"/>
+						<xs:element name="TIMEOUT" type="xs:integer"/>
+						<xs:element name="PLUGIN" type="xs:string"/>
+						<xs:element name="PAGE" type="xs:string"/>
+						<xs:element name="COMMENT" type="xs:string" minOccurs="0" maxOccurs="1" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DATA"  minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>

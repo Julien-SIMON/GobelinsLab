@@ -1,0 +1,1 @@
+php ../extract_cmdb.php

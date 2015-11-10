@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="XML">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="HEADER" minOccurs="1" maxOccurs="1" />
+			<xs:element name="DATA"  minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ENVIRONMENTS" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ENVIRONMENT" maxOccurs="unbounded" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element type="xs:string" name="NAME"/>
+												<xs:element type="xs:string" name="PARENT"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PROJECTS" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="PROJECT" maxOccurs="unbounded" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element type="xs:string" name="NAME"/>
+												<xs:element type="xs:string" name="PARENT"/>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="SERVERS" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="SERVER" maxOccurs="unbounded" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element type="xs:string" name="NAME"/>
+												<xs:element type="xs:string" name="PARENT"/>
+												<xs:element name="ASSIGNMENTS" maxOccurs="1" minOccurs="1">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="ASSIGNMENT" maxOccurs="unbounded" minOccurs="0">
+																<xs:complexType>
+																	<xs:sequence>
+																		<xs:element type="xs:string" name="ENVIRONMENT"/>
+																		<xs:element type="xs:string" name="PROJECT"/>
+																	</xs:sequence>
+																</xs:complexType>
+															</xs:element>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>

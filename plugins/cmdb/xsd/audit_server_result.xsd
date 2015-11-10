@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="XML">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="HEADER" minOccurs="1" maxOccurs="1" />
+			<xs:element name="DATA"  minOccurs="1" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="SERVER" minOccurs="1" maxOccurs="1">
+							<xs:complexType>
+								<xs:sequence>
+
+									<xs:element type="xs:string" name="NAME"/>
+									<xs:element type="xs:string" name="OSTYPE"/>
+									<xs:element type="xs:string" name="OSVERSION"/>
+									<xs:element type="xs:string" name="OSNAME"/>
+									<xs:element type="xs:string" name="OSARCHITECTURE"/>
+									<xs:element type="xs:string" name="OSSERIALNUMBER"/>
+									<xs:element type="xs:string" name="OSINSTALLDATE"/>
+									<xs:element type="xs:string" name="LASTBOOTTIME"/>
+									
+									<xs:element type="xs:string" name="MEMORYSIZE"/>
+									<xs:element name="CPUS" minOccurs="1" maxOccurs="1">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="CPU" minOccurs="0" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element type="xs:string" name="DEVICEID"/>
+															<xs:element type="xs:string" name="MAXCLOCKSPEED"/>
+															<xs:element type="xs:string" name="NAME"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>	
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>	
+									
+									<xs:element name="SERVICES" minOccurs="1" maxOccurs="1">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="SERVICE" minOccurs="0" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element type="xs:string" name="NAME"/>
+															<xs:element type="xs:string" name="PATHNAME"/>
+															<xs:element type="xs:string" name="STARTMODE"/>
+															<xs:element type="xs:string" name="STATE"/>
+															<xs:element type="xs:string" name="STARTNAME"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>	
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>	
+
+									<xs:element name="DISKS" minOccurs="1" maxOccurs="1">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="DISK" minOccurs="0" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element type="xs:string" name="NAME"/>
+															<xs:element type="xs:string" name="INTERFACETYPE"/>
+															<xs:element type="xs:string" name="SIZE"/>
+															<xs:element type="xs:string" name="DESCRIPTION"/>
+															<xs:element type="xs:string" name="FIRMWAREREVISION"/>
+															<xs:element type="xs:string" name="MANUFACTURER"/>
+															<xs:element type="xs:string" name="MODEL"/>
+															<xs:element type="xs:string" name="SERIALNUMBER"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>	
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									
+									<xs:element name="PARTITIONS" minOccurs="1" maxOccurs="1">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PARTITION" minOccurs="0" maxOccurs="unbounded">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element type="xs:string" name="NAME"/>
+															<xs:element type="xs:string" name="FILESYSTEM"/>
+															<xs:element type="xs:string" name="FREESPACE"/>
+															<xs:element type="xs:string" name="SIZE"/>
+															<xs:element type="xs:string" name="ALIAS"/>
+														</xs:sequence>
+													</xs:complexType>
+												</xs:element>	
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>	
+									
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+
+</xs:schema>
