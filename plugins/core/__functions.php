@@ -95,33 +95,43 @@ class initialisation {
 	function initialisation(){
 		
 		// On parse le fichier .ini
+		self::$ini=array();
 		$iniFilePath='conf/config.ini';
 		self::$ini = parse_ini_file($iniFilePath);
-		
+	
 		// On ouvre la connexion à la BDD
 		DbLink::getLink()->init(self::$ini['BDD_TYPE'],self::$ini['BDD_HOTE'],self::$ini['BDD_PORT'],self::$ini['BDD_BASENAME'],self::$ini['BDD_LOGIN'],self::$ini['BDD_PASSWORD']);
-	
+		
 	    // On récupère la liste des plugins et des tables
 	    $this->pluginsIndex = array();
-		$q0=get_link()->prepare("SELECT id AS ID,name AS NAME FROM ".get_ini('BDD_PREFIX')."core_plugins WHERE activated=1 AND deleted_date=0");
-		$q0->execute(array());
-		while($r0 = $q0->fetch(PDO::FETCH_OBJ)) {
-            self::$plugins[$r0->NAME]=$r0->ID;
-            array_push($this->pluginsIndex,$r0->NAME);
-		}
-		$q0=get_link()->prepare("SELECT id AS ID,name AS NAME FROM ".get_ini('BDD_PREFIX')."core_tables WHERE deleted_date=0");
-		$q0->execute(array());
-		while($r0 = $q0->fetch(PDO::FETCH_OBJ)) {
-            self::$tables[$r0->NAME]=$r0->ID;
-		}
-		
-		// Load the accessManager class for security function
-		self::$accessM = new accessManager();
+	    self::$tables = array();
+	    try {
+			$q0=get_link()->prepare("SELECT id AS ID,name AS NAME FROM ".get_ini('BDD_PREFIX')."core_plugins WHERE activated=1 AND deleted_date=0");
+			$q0->execute(array());
+			while($r0 = $q0->fetch(PDO::FETCH_OBJ)) {
+        	    self::$plugins[$r0->NAME]=$r0->ID;
+        	    array_push($this->pluginsIndex,$r0->NAME);
+			}
+			$q0=get_link()->prepare("SELECT id AS ID,name AS NAME FROM ".get_ini('BDD_PREFIX')."core_tables WHERE deleted_date=0");
+			$q0->execute(array());
+			while($r0 = $q0->fetch(PDO::FETCH_OBJ)) {
+        	    self::$tables[$r0->NAME]=$r0->ID;
+			}
+			
+			// Load the accessManager class for security function
+			self::$accessM = new accessManager();
+		} 
+		catch(Exception $e)
+		{
+			echo 'Erreur : '.$e->getMessage().'<br />';
+			echo 'N° : '.$e->getCode();
+		}	
+			
 		$userAccessArray = array();
 		
 		// Load local
 		if(!isset($_SESSION["lang"])) {
-			$_SESSION["lang"]=self::$ini['DEFAULT_LANGUAGE'];
+			if(get_ini('DEFAULT_LANGUAGE')!=''){$_SESSION["lang"]=get_ini('DEFAULT_LANGUAGE');} else {$_SESSION["lang"]='en_US';}
 		}
   		if (isset($_GET["lang"])) {
 		  $lang = $_GET["lang"];
@@ -151,9 +161,11 @@ class initialisation {
 	public static function getIni($param) {
 		$param=strtoupper($param);
         if(!isset(self::$ini[$param])){
-            $q0=get_link()->prepare("SELECT parameter_value AS PARAMETER_VALUE FROM ".get_ini('BDD_PREFIX')."core_parameters WHERE name=:name AND deleted_date=0");
-            $q0->execute(array( 'name' => $param ));
-		    $r0 = $q0->fetch(PDO::FETCH_OBJ); 
+        	try {
+            	$q0=get_link()->prepare("SELECT parameter_value AS PARAMETER_VALUE FROM ".get_ini('BDD_PREFIX')."core_parameters WHERE name=:name AND deleted_date=0");
+            	$q0->execute(array( 'name' => $param ));
+		    	$r0 = $q0->fetch(PDO::FETCH_OBJ); 
+        	} catch(Exception $e) {}
             if(isset($r0->PARAMETER_VALUE)) {
                 self::$ini[$param]=$r0->PARAMETER_VALUE;
             } else {
@@ -232,6 +244,10 @@ function get_table_id($name) {
 	return initialisation::getTableId(strtolower($name));
 }
 
+function getTableId($name) {
+	return initialisation::getTableId(strtolower($name));
+}
+
 function getPluginId($name) {
 	return initialisation::getPluginId(strtolower($name));
 }
@@ -289,7 +305,7 @@ function stringGenerate($length = 8)
 {
         $string='';
        
-        $pattern = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+_@!$%?&';
+        $pattern = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+_@#*!$%?&';
         $pattern_length = strlen($pattern);
        
         for($i = 1; $i <= $length; $i++)
@@ -411,15 +427,9 @@ class rijn {
     }
 }
 
-/*
-	Start initialisation and other compute
-*/
-$init = new initialisation();
-
-$rijn = new rijn(); // Cryp call
-
-//echo strlen(rijn::crypt($server->creds['login'])).'<BR>'.
-//	rijn::decrypt(rijn::crypt($server->creds['login'])).'<BR>'.$server->creds['password'].$server->creds['subLogin'].$server->creds['subPassword'].'<BR>';
+// $rijn = new rijn(); // Cryp call
+// echo strlen(rijn::crypt($server->creds['login'])).'<BR>'.
+// rijn::decrypt(rijn::crypt($server->creds['login'])).'<BR>'.$server->creds['password'].$server->creds['subLogin'].$server->creds['subPassword'].'<BR>';
 		
 
 ?>

@@ -4,13 +4,22 @@ ini_set('display_errors',1);
 
 ini_set('session.gc_maxlifetime', 86400);
 
+date_default_timezone_set("Europe/Paris");
+
 session_start();
+
+if(!isset($p)){if(isset($_GET['p'])){$p=$_GET['p'];}elseif(isset($_POST['p'])){$p=$_POST['p'];}else{$p='';}} // page
+if(!isset($g)){if(isset($_GET['g'])){$g=$_GET['g'];}elseif(isset($_POST['g'])){$g=$_POST['g'];}else{$g='core';}} // plugins
+if(!isset($m)){if(isset($argv[0])){$m='t';$_SESSION['USER_ID']=0;}elseif(isset($_GET['m'])){$m=$_GET['m'];}elseif(isset($_POST['m'])){$m=$_POST['m'];}else{$m='';}} // method ("a"=ajax, "t"=thread, "j"=job, ""=default)
+if(!isset($a)){if(isset($_GET['a'])){$a=$_GET['a'];}elseif(isset($_POST['a'])){$a=$_POST['a'];}else{$a='';}} // action
 
 // Set USER_ID for anonymous connexion
 if(!isset($_SESSION['USER_ID'])){$_SESSION['USER_ID']=-1;}
 
 // Call functions file
 require_once('plugins/core/__functions.php');
+$init = new initialisation();
+$rijn = new rijn();
 
 // On ajoute les fichiers de connexion externe (Facebook, Google, ...)
 // On positionne une variable de session en cas de demande de connexion OAuth
@@ -63,11 +72,6 @@ if(isset($_SESSION['auth_info_method'])&&isset($_SESSION['auth_info_login'])&&$_
 
 // Set the timezone
 date_default_timezone_set(get_ini('TIMEZONE'));
-
-if(!isset($p)){if(isset($_GET['p'])){$p=$_GET['p'];}elseif(isset($_POST['p'])){$p=$_POST['p'];}else{$p='';}} // page
-if(!isset($g)){if(isset($_GET['g'])){$g=$_GET['g'];}elseif(isset($_POST['g'])){$g=$_POST['g'];}else{$g='core';}} // plugins
-if(!isset($m)){if(isset($argv[0])){$m='t';$_SESSION['USER_ID']=0;}elseif(isset($_GET['m'])){$m=$_GET['m'];}elseif(isset($_POST['m'])){$m=$_POST['m'];}else{$m='';}} // method ("a"=ajax, "t"=thread, "j"=job, ""=default)
-if(!isset($a)){if(isset($_GET['a'])){$a=$_GET['a'];}elseif(isset($_POST['a'])){$a=$_POST['a'];}else{$a='';}} // action
 
 // Include plugin function file
 if($g!='core'&&is_file('plugins/'.$g.'/__functions.php')){require('plugins/'.$g.'/__functions.php');}
@@ -145,7 +149,7 @@ switch ($m) {
 	
 	<script type="text/javascript">
 function insertLoader(div) {
-	$(div).html('<img src="<?php echo get_ini('LOADER'); ?>" alt="loader" height="47" width="48" style="magin: 25 25 25 25;">');
+	$(div).html('<img src="<?php if(get_ini('LOADER')==''){echo get_ini('LOADER');}else{echo 'images/loader.gif';} ?>" alt="loader" height="47" width="48" style="magin: 25 25 25 25;">');
 }
 	
 function popupFormSubmit(url,data) {

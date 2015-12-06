@@ -6,7 +6,7 @@ class parameterManager {
 	}
 	
 	function getId($idPlugin,$name) {
-		$q0=get_link()->prepare("SELECT id AS ID FROM ".get_ini('BDD_PREFIX')."core_parameters WHERE id_plugin=:id_plugin AND name=:name AND deleted_date=0");
+		$q0=get_link()->prepare("SELECT id AS ID FROM ".get_ini('BDD_PREFIX')."core_parameters WHERE id_plugin=:idPlugin AND name=:name AND deleted_date=0");
 		$q0->execute(array( "name" => $name , "idPlugin" => $idPlugin ));
 		$r0 = $q0->fetch(PDO::FETCH_OBJ);
 		
@@ -17,18 +17,20 @@ class parameterManager {
 			return 0;
 		}
 	}
-/*	
-	function create($idTable,$idExt) {
-		$q0 = get_link()->prepare('INSERT INTO '.get_ini('BDD_PREFIX').'core_parameters (id_table,id_ext,created_id,created_date,edited_id,edited_date,deleted_id,deleted_date) VALUES (:id_table,:id_ext,:created_id,:created_date,0,0,0,0)');
-		$q0->execute(array(	'id_table' => $idTable,
-                            'id_ext' => $idExt,
+	
+	function create($idPlugin,$name,$parameterValue,$defaultValue) {
+		$q0 = get_link()->prepare('INSERT INTO '.get_ini('BDD_PREFIX').'core_parameters (id_plugin,name,parameter_value,default_value,created_id,created_date,edited_id,edited_date,deleted_id,deleted_date) VALUES (:id_plugin,:name,:parameter_value,:default_value,:created_id,:created_date,0,0,0,0)');
+		$q0->execute(array(	'id_plugin' => $idPlugin,
+                            'name' => $name,
+                            'parameter_value' => $parameterValue,
+                            'default_value' => $defaultValue,
 							'created_id' => $_SESSION['USER_ID'],
 							'created_date' => time()
 					));
 		
-		return $this->getId($idTable,$idExt);
+		return $this->getId($idPlugin,$name);
 	}
-*/
+
 	function update($id,$value) {
 		if($id>0) {
 			$q0 = get_link()->prepare('UPDATE '.get_ini('BDD_PREFIX').'core_parameters SET parameter_value=:parameter_value, edited_id=:edited_id, edited_date=:edited_date WHERE id=:id');

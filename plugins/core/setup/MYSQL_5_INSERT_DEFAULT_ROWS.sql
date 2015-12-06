@@ -23,10 +23,10 @@ INSERT INTO `gl_core_groups_users_map` ( `id`, `group_id`, `user_id`, `created_d
 -- Contenu de la table `user_auth_methods`
 --
 
-INSERT INTO `gl_core_user_auth_methods` ( `id`, `name`, `icon`, `created_date`, `edited_date`, `deleted_date`, `created_id`, `edited_id`, `deleted_id`) VALUES ( '1', 'LOCAL', 'icon-log-in', 0, 0, 0, 0, 0, 0);
-INSERT INTO `gl_core_user_auth_methods` ( `id`, `name`, `icon`, `created_date`, `edited_date`, `deleted_date`, `created_id`, `edited_id`, `deleted_id`) VALUES ( '2', 'LDAP', 'icon-sitemap', 0, 0, 0, 0, 0, 0);
-INSERT INTO `gl_core_user_auth_methods` ( `id`, `name`, `icon`, `created_date`, `edited_date`, `deleted_date`, `created_id`, `edited_id`, `deleted_id`) VALUES ( '5', 'FACEBOOK', 'icon-facebook-square', 0, 0, 0, 0, 0, 0);
-INSERT INTO `gl_core_user_auth_methods` ( `id`, `name`, `icon`, `created_date`, `edited_date`, `deleted_date`, `created_id`, `edited_id`, `deleted_id`) VALUES ( '6', 'GOOGLE', 'icon-google-plus-1', 0, 0, 0, 0, 0, 0);
+INSERT INTO `gl_core_user_auth_methods` ( `id`, `name`, `icon`, `created_date`, `edited_date`, `deleted_date`, `created_id`, `edited_id`, `deleted_id`) VALUES ( '1', 'LOCAL', 'iconfa-log-in', 0, 0, 0, 0, 0, 0);
+INSERT INTO `gl_core_user_auth_methods` ( `id`, `name`, `icon`, `created_date`, `edited_date`, `deleted_date`, `created_id`, `edited_id`, `deleted_id`) VALUES ( '2', 'LDAP', 'iconfa-sitemap', 0, 0, 0, 0, 0, 0);
+INSERT INTO `gl_core_user_auth_methods` ( `id`, `name`, `icon`, `created_date`, `edited_date`, `deleted_date`, `created_id`, `edited_id`, `deleted_id`) VALUES ( '5', 'FACEBOOK', 'iconfa-facebook-square', 0, 0, 0, 0, 0, 0);
+INSERT INTO `gl_core_user_auth_methods` ( `id`, `name`, `icon`, `created_date`, `edited_date`, `deleted_date`, `created_id`, `edited_id`, `deleted_id`) VALUES ( '6', 'GOOGLE', 'iconfa-google-plus-1', 0, 0, 0, 0, 0, 0);
 
 --
 -- Contenu de la table `user_auths`

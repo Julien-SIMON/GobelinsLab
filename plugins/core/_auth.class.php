@@ -6,7 +6,7 @@ class authManager {
 	
 	function getId($userId,$methodId) {
 		$q0=get_link()->prepare("SELECT id AS ID FROM ".get_ini('BDD_PREFIX')."core_user_auths WHERE user_id=:user_id AND auth_id=:auth_id AND deleted_date=0");
-		$q0->execute(array( "user_id" => $user_id , "auth_id" => $methodId ));
+		$q0->execute(array( "user_id" => $userId , "auth_id" => $methodId ));
 		$r0 = $q0->fetch(PDO::FETCH_OBJ);
 		
 		if(isset($r0->ID)) {
