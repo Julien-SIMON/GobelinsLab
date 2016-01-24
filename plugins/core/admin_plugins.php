@@ -123,11 +123,16 @@ Etes vous sûr de vouloir supprimer le paramêtre '.$param->name.' ? <BR>
     	if(isset($_GET['name'])){$name=$_GET['name'];}elseif(isset($_POST['name'])){$name=$_POST['name'];}else{
     		// TODO ERROR
     		exit();
-    	} 
-    	
-    	$a=''; // Reset $a variable to select default action in the plugin setup page
+    	}
     	
     	if(is_file('plugins/'.$name.'/setup.php')) {include('plugins/'.$name.'/setup.php');}
+    	
+		$pluginM = new pluginManager();
+		if($pluginM->getId($name)==0)					{
+			$pluginM->create($name);
+			$plugin = new plugin($pluginM->getId($name));
+			$plugin->updateActivated(1);
+		}
     break;
     case 'enableToggle':
     	if(isset($_GET['id'])){$id=$_GET['id'];}elseif(isset($_POST['id'])){$id=$_POST['id'];}else{

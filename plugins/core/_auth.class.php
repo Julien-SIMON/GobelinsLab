@@ -31,7 +31,7 @@ class authManager {
 		$q0->execute(array(	'id' => $id,
 					'auth_id' => $methodId,
 					'user_id' => $userId,
-					'password' => $password,
+					'password' => hashWithSalt($password),
 					'avatar' => $avatar,
 					'lastname' => $lastName,
 					'firstname' => $firstName,

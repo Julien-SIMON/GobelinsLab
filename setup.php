@@ -141,11 +141,11 @@ You cannot generate another config file. One are already present. Please go at t
 	    
 		file_put_contents('conf/version',$version);
 		
-		echo '<BR><BR><a href="index.php"><span class="icon iconfa-stackoverflow"> Installation complete</a>';
+		echo 'Please note these informations:<BR>Login: <B>admin</B><BR>Password: <B>gob</B><BR><BR><a href="index.php"><span class="icon iconfa-stackoverflow"> Installation complete</a>';
 	break;
 	case 22:
 		echo '
-<h3>Step 4/10 - Fill the tables</h3>
+<h3>Step 4/5 - Fill the tables</h3>
 	    ';
 
 
@@ -211,7 +211,7 @@ You cannot generate another config file. One are already present. Please go at t
 		$authM = new authManager();
 		$authMethodM = new authMethodManager();
 		$userM = new userManager();
-		if($authM->getId($userM->getIdByName('admin'),$authMethodM->getId('LOCAL'))==0)			{$authM->create($userM->getIdByName('admin'),$authMethodM->getId('LOCAL'),'admin','gobelinslab','lib/avatars/brain.jpg','','','');}
+		if($authM->getId($userM->getIdByName('admin'),$authMethodM->getId('LOCAL'))==0)			{$authM->create($userM->getIdByName('admin'),$authMethodM->getId('LOCAL'),'admin','gob','lib/avatars/brain.jpg','','','admin');}
 		
 		// Add default access
 		echo ' - Fill access table<BR>';
@@ -283,7 +283,7 @@ You cannot generate another config file. One are already present. Please go at t
 	break;
 	case 20:
 		echo '
-<h3>Step 3/10 - Fill the database</h3>
+<h3>Step 3/5 - Fill the database</h3>
 	    ';
 	    
 		if(is_file('plugins/core/setup/database.php')){
@@ -303,7 +303,7 @@ You cannot generate another config file. One are already present. Please go at t
 	case 10:
 		echo '
 <form action="setup.php?s=12" method="post">
-<h3>Step 2/10 - Databases</h3>
+<h3>Step 2/5 - Databases</h3>
 
 Type * <BR>
 <select name="db_type"><option value="oracle">Oracle</option><option value="mysql">MySql</option></select><BR>
@@ -358,7 +358,7 @@ Password * <BR>
        	if(isset($_GET['db_pass'])){$db_pass=$_GET['db_pass'];}elseif(isset($_POST['db_pass'])){$db_pass=$_POST['db_pass'];}else{
     		// TODO ERROR
     		exit();
-    	} 
+    	}
     	// Test if connexion is OK
     	echo '<h3>Database connexion</h3>';
 		try {
@@ -395,7 +395,8 @@ BDD_PREFIX="'.$db_prefix.'"
 BDD_CRYPT_PASS="'.stringGenerate(48).'"
 
 [PASSWORD]
-PASSWORD_SALT="'.stringGenerate().'"
+PASSWORD_SALT="'.stringGenerate(8).'"
+HASH_METHOD="sha512"
     	';
     
     	file_put_contents('conf/config.ini', $configContent);
@@ -413,7 +414,7 @@ PASSWORD_SALT="'.stringGenerate().'"
 	// Default case
     default:
 		echo '
-<h3>Step 1/10</h3>
+<h3>Step 1/5</h3>
 
 Please follow instructions to complete the setup process. You can resume it at all moment within the last step.<BR><BR>
 

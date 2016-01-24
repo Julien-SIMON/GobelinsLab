@@ -332,7 +332,7 @@ function getNewSizePicture($path,$targetWidth,$targetHeight) {
 }
 
 function hashWithSalt($string) {
-    return hash("sha256", $string . get_ini('PASSWORD_SALT'));
+    return hash(get_ini('HASH_METHOD'), $string . get_ini('PASSWORD_SALT'));
 }
 
 function getOsAgent(){
