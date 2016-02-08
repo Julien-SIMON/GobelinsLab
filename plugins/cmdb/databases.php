@@ -205,7 +205,7 @@ if($dev->typeName == 'server') {
 			p.name AS PRONAME,
 			e.name AS ENVNAME,
 			i.id AS DBID,
-			i.name AS DBNAME,
+			i.db_name AS DBNAME,
 			i.db_type AS DBTYPE
 		FROM 
 			'.get_ini('BDD_PREFIX').'cmdb_devices d,
@@ -226,7 +226,7 @@ if($dev->typeName == 'server') {
 			d.deleted_date=0 AND
 			o.deleted_date=0 AND
 			i.deleted_date=0
-		ORDER BY d.name ASC, i.name ASC, e.name ASC, p.name ASC
+		ORDER BY d.name ASC, i.db_name ASC, e.name ASC, p.name ASC
 								'); 
 		$q0->execute();
 		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )

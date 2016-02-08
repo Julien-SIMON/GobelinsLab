@@ -37,7 +37,7 @@ while(is_object($items = $item_DATA->getElementsByTagName("PROJECTS")->item($ite
 		if($itemNameValue == ''){$itemNameValue=' ';} // To avoid "null string" (for Oracle compatibility)
 		if($itemParentValue == ''){$itemParentValue=' ';} // To avoid "null string" (for Oracle compatibility)
 
-		if(!in_array($itemParentValue, $projectsIndex)){array_push($projectsIndex, $itemParentValue);$environmentsArray[$itemParentValue]['PARENT']=' ';}	
+		if(!in_array($itemParentValue, $projectsIndex)){array_push($projectsIndex, $itemParentValue);$projectsArray[$itemParentValue]['PARENT']=' ';}	
 		if(!in_array($itemNameValue, $projectsIndex)){array_push($projectsIndex, $itemNameValue);}
 		$projectsArray[$itemNameValue]['PARENT']=$itemParentValue;
 	}

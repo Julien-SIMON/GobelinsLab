@@ -170,15 +170,19 @@ while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
     <td>'.$r0->ID.'</td>
     <td>'.$r0->NAME.'</td>
     <td>
-		<select id="selectActivatedFlipSwitch'.$r0->ID.'" class="flipswitch-select" data-role="slider" data-mini="true" onChange="$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_plugins&a=enableToggle&value=\' + $( this ).val() + \'&id='.$r0->ID.'\');">
+		<select id="selectActivatedFlipSwitch'.$r0->ID.'" class="flipswitch-select" data-role="slider" data-mini="true" onChange="$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_plugins&a=enableToggle&value=\' + $( this ).val() + \'&id='.$r0->ID.'\');"
 		';
-	if($r0->ACTIVATED==1) {
+	if($r0->NAME=='core') {
+		echo ' DISABLED>';
+	} elseif($r0->ACTIVATED==1) {
 		echo '
+			>
 			<option value="0">Off</option>
 			<option value="1" selected>On</option>
 			';
 	} else {
 		echo '
+			>
 			<option value="0" selected>Off</option>
 			<option value="1">On</option>
 			';
