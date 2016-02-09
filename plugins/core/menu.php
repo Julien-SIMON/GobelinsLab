@@ -30,9 +30,9 @@ foreach($init->pluginsIndex as $plugin) {
 	if($plugin != 'core') {
 		echo '
 <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
-<h3>CMDB</h3>
+<h3>'.$plugin.'</h3>
 <ul data-role="listview">';
-		include('plugins/cmdb/menu.php');
+		include('plugins/'.$plugin.'/menu.php');
 		echo '
 </ul>
 		';

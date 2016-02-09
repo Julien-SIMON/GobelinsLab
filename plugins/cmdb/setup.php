@@ -11,7 +11,7 @@
 if(is_file('plugins/'.$name.'/setup/database.php')){
 	include('plugins/'.$name.'/setup/database.php');
 
-	foreach($databaseArray['MYSQL']['create_frame'] as $sql) {
+	foreach($databaseArray[strtoupper(get_ini('BDD_TYPE'))]['create_frame'] as $sql) {
 		try {
 			$q0=get_link()->prepare(str_replace('<prefix>',get_ini('BDD_PREFIX'),$sql));
 	    	$q0->execute();

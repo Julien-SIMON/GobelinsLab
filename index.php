@@ -121,27 +121,36 @@ switch ($m) {
     <meta name="keywords" content="" />
     <meta name="description" content="" />
     
-	<!-- Librairie Jquery -->
+	<!-- Library Jquery and Bootstrap -->
 	<?php
 	if (getBrowserAgentVersion() <= 8 ) {// IE ... , 7 and 8 case
 		echo '	<link rel="stylesheet"  href="lib/jqueryMobile/1.4.0/themes/default/jquery.mobile-1.4.0.min.css">'."\n";
+		echo '	<link rel="stylesheet"  href="lib/bootstrap/3.3.6/css/bootstrap.min.css">'."\n";
+		echo '	<link rel="stylesheet"  href="lib/summerNote/summernote.css">'."\n";
 		echo '	<script src="lib/jquery/jquery-1.11.3.min.js"></script>'."\n";
+		echo '	<script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>'."\n";
+		echo '	<script src="lib/summerNote/summernote.min.js"></script>'."\n";
 		echo '  <script type="text/javascript">$(document).bind("mobileinit", function () {$.mobile.ajaxEnabled = false;});</script> <!-- Desactive le data-ajax par défaut pour Jquery-mobile -->';
 		echo '	<script src="lib/jqueryMobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>'."\n";
 	} else { 
 		echo '	<link rel="stylesheet"  href="lib/jqueryMobile/1.4.5/jquery.mobile-1.4.5.min.css">'."\n";
+		echo '	<link rel="stylesheet"  href="lib/bootstrap/3.3.6/css/bootstrap.min.css">'."\n";
+		echo '	<link rel="stylesheet"  href="lib/summerNote/summernote.css">'."\n";
 		echo '	<script src="lib/jquery/jquery-2.1.4.min.js"></script>'."\n";
+		echo '	<script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>'."\n";
+		echo '	<script src="lib/summerNote/summernote.min.js"></script>'."\n";
 		echo '  <script type="text/javascript">$(document).bind("mobileinit", function () {$.mobile.ajaxEnabled = false;});</script> <!-- Desactive le data-ajax par défaut pour Jquery-mobile -->';
 		echo '	<script src="lib/jqueryMobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>'."\n";
 	}
 	?>
 	
-	
-	
-	
 	<!-- Librairie awesome fonts -->
 	<link rel="stylesheet" href="lib/fontastics/PACK201509/font-awesome.css">
-	<!-- <link rel="stylesheet" href="lib/fontastics/fontastics.css"> -->
+	
+	<!-- Library bootstrap -->
+	
+	
+	<!-- Library summerNote -->
 	
 	<!-- Js et Css -->
 	<link rel="stylesheet" href="css/_main.css">

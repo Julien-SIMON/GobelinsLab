@@ -275,6 +275,8 @@ You cannot generate another config file. One are already present. Please go at t
 		
 		if($parameterM->getId(getPluginId('core'),'DEFAULT_AVATAR')==0)		{$parameterM->create(getPluginId('core'),'DEFAULT_AVATAR','lib/avatars/brain.jpg','lib/avatars/brain.jpg');}
 
+		if($parameterM->getId(getPluginId('core'),'DEFAULT_HOME_PAGE')==0)		{$parameterM->create(getPluginId('core'),'DEFAULT_HOME_PAGE','all','all');}
+
 		if($parameterM->getId(getPluginId('core'),'VERSION')==0)			{$parameterM->create(getPluginId('core'),'VERSION',$version,'');}
 		
 		
