@@ -36,7 +36,7 @@ class userManager {
 		
     	switch ($method) {
     	    case 'LOCAL':
-				$q0=get_link()->prepare("SELECT a.user_id AS ID FROM ".get_ini('BDD_PREFIX')."core_user_auths a,".get_ini('BDD_PREFIX')."core_users u WHERE a.auth_id=:auth_id AND a.mail=:mail AND a.password=:password AND a.user_id=u.id AND a.deleted_date=0  AND u.deleted_date=0");
+				$q0=get_link()->prepare("SELECT a.user_id AS ID FROM ".get_ini('BDD_PREFIX')."core_user_auths a,".get_ini('BDD_PREFIX')."core_users u WHERE a.auth_id=:auth_id AND a.mail=:mail AND a.password=:password AND a.user_id=u.id AND a.deleted_date=0 AND u.deleted_date=0");
 				$q0->execute(array( "auth_id" => $authMethodM->getId('LOCAL') , 'mail' => strtolower($login) , 'password' => hashWithSalt($password) ));
 				$r0 = $q0->fetch(PDO::FETCH_OBJ);
 				
@@ -51,7 +51,7 @@ class userManager {
     	    break;
     	    case 'FACEBOOK':
 				$q0=get_link()->prepare("SELECT a.user_id AS ID FROM ".get_ini('BDD_PREFIX')."core_user_auths a,".get_ini('BDD_PREFIX')."core_users u WHERE a.auth_id=:auth_id AND a.password=:password AND a.user_id=u.id AND a.deleted_date=0  AND u.deleted_date=0");
-				$q0->execute(array( "auth_id" => $authMethodM->getId('FACEBOOK') , 'password' => $password ));
+				$q0->execute(array( "auth_id" => $authMethodM->getId('FACEBOOK') , 'password' => hashWithSalt($password) ));
 				$r0 = $q0->fetch(PDO::FETCH_OBJ);
 				
 				if(isset($r0->ID)) {
@@ -60,7 +60,7 @@ class userManager {
     	    break;
     	    case 'GOOGLE':
     	    	$q0=get_link()->prepare("SELECT a.user_id AS ID FROM ".get_ini('BDD_PREFIX')."core_user_auths a,".get_ini('BDD_PREFIX')."core_users u WHERE a.auth_id=:auth_id AND a.password=:password AND a.user_id=u.id AND a.deleted_date=0  AND u.deleted_date=0");
-				$q0->execute(array( "auth_id" => $authMethodM->getId('GOOGLE') , 'password' => $password ));
+				$q0->execute(array( "auth_id" => $authMethodM->getId('GOOGLE') , 'password' => hashWithSalt($password) ));
 				$r0 = $q0->fetch(PDO::FETCH_OBJ);
 				
 				if(isset($r0->ID)) {
@@ -151,7 +151,7 @@ class userManager {
 			$q0_last_insert = $this->create($name,$avatar,$mail);
 			
 			// On ajoute la méthode de connexion locale
-			$authM->create($q0_last_insert,$authMethodM->getId('LOCAL'),$name,hashWithSalt($generatedPassword),$avatar,$lastName,$firstName,$mail);
+			$authM->create($q0_last_insert,$authMethodM->getId('LOCAL'),$name,$generatedPassword,$avatar,$lastName,$firstName,$mail);
 			
 			// On ajoute le groupe par défaut si il y en a un
             if( get_ini('default_group')!='' ) {

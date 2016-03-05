@@ -1,10 +1,10 @@
-$(function () {
+//$(function () {
 	// hide shadow box and adapt page height to pannel content
-	$("#ui-navmenu-pannel-link").buttonMarkup({ shadow: false }); // On désactive les ombres du bouton
-	$("#ui-navmenu-pannel").trigger( "updatelayout" ); // On met à jour la hauteur de la fenêtre suivant le contenu des "pannel"
-	$("#ui-infos-pannel-link").buttonMarkup({ shadow: false }); // On désactive les ombres du bouton
-	$("#ui-infos-pannel").trigger( "updatelayout" ); // On met à jour la hauteur de la fenêtre suivant le contenu des "pannel"
-});
+//	$("#ui-navmenu-pannel-link").buttonMarkup({ shadow: false }); // On désactive les ombres du bouton
+//	$("#ui-navmenu-pannel").trigger( "updatelayout" ); // On met à jour la hauteur de la fenêtre suivant le contenu des "pannel"
+//	$("#ui-infos-pannel-link").buttonMarkup({ shadow: false }); // On désactive les ombres du bouton
+//	$("#ui-infos-pannel").trigger( "updatelayout" ); // On met à jour la hauteur de la fenêtre suivant le contenu des "pannel"
+//});
 
 function nl2br(str, is_xhtml) {
   //  discuss at: http://phpjs.org/functions/nl2br/

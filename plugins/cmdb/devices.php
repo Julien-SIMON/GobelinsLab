@@ -411,6 +411,74 @@ if($dev->typeName == 'server') {
 				</div>		
 			</div>
 		';
+		
+		
+		echo '
+<div class="row">
+	<div class="col-lg-3 col-xs-6">
+		<div class="small-box bg-aqua">
+			<div class="inner">
+				<h3>4</h3>
+				<p>CPU</p>
+			</div>
+			<div class="icon">
+				<i class="iconastic-speedometer"></i>
+			</div>
+		<a href="#" class="small-box-footer"
+		data-toggle="modal" data-target="#popup" 
+		onClick="insertLoader(\'#popupContent\');setPopupTitle(\'CPU\');$(\'#popupContent\').load(\'index.php?m=a&g=cmdb&p=devices&a=cpuDesc&id='.$deviceId.'\');"
+		>More info <i class="iconastic-arrow-circle-right"></i></a>
+		</div>
+	</div>
+	
+	<div class="col-lg-3 col-xs-6">
+		<div class="small-box bg-green">
+			<div class="inner">
+				<h3>8<sup style="font-size: 20px">Go</sup></h3>
+				<p>Memory</p>
+			</div>
+			<div class="icon">
+				<i class="iconastic-stackoverflow"></i>
+			</div>
+		<a href="#" class="small-box-footer"
+		data-toggle="modal" data-target="#popup" 
+		onClick="insertLoader(\'#popupContent\');setPopupTitle(\'CPU\');$(\'#popupContent\').load(\'index.php?m=a&g=cmdb&p=devices&a=cpuDesc&id='.$deviceId.'\');"
+		>More info <i class="iconastic-arrow-circle-right"></i></a>
+		</div>
+	</div>
+	
+	<div class="col-lg-3 col-xs-6">
+		<div class="small-box bg-yellow">
+			<div class="inner">
+				<h3>4</h3>
+				<p>Disks</p>
+			</div>
+			<div class="icon">
+				<i class="iconastic-harddrive"></i>
+			</div>
+		<a href="#" class="small-box-footer"
+		data-toggle="modal" data-target="#popup" 
+		onClick="insertLoader(\'#popupContent\');setPopupTitle(\'CPU\');$(\'#popupContent\').load(\'index.php?m=a&g=cmdb&p=devices&a=cpuDesc&id='.$deviceId.'\');"
+		>More info <i class="iconastic-arrow-circle-right"></i></a>
+		</div>
+	</div>
+	<div class="col-lg-3 col-xs-6">
+		<div class="small-box bg-red">
+			<div class="inner">
+				<h3>4</h3>
+				<p>partitions</p>
+			</div>
+			<div class="icon">
+				<i class="iconastic-pricetags"></i>
+			</div>
+		<a href="#" class="small-box-footer"
+		data-toggle="modal" data-target="#popup" 
+		onClick="insertLoader(\'#popupContent\');setPopupTitle(\'CPU\');$(\'#popupContent\').load(\'index.php?m=a&g=cmdb&p=devices&a=cpuDesc&id='.$deviceId.'\');"
+		>More info <i class="iconastic-arrow-circle-right"></i></a>
+		</div>
+	</div>
+</div>
+		';
 	//------------ ! Hardware ---------
 	//------------ Os -----------------
 	echo '
@@ -498,7 +566,9 @@ if($dev->typeName == 'server') {
 		</div>
 		';
 	break;
-	default:
+	case 'jsonList':
+		$dataArray['data'] = array();
+		
 		$deviceIndex = array();
 		$deviceArray = array();
 		
@@ -526,30 +596,73 @@ if($dev->typeName == 'server') {
 								'); 
 		$q0->execute();
 		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
-		{	
+		{
 			if(!in_array($r0->ID,$deviceIndex)){
 				array_push($deviceIndex,$r0->ID);
+				$deviceArray[$r0->ID]['ID']=$r0->ID;
 				$deviceArray[$r0->ID]['NAME']=$r0->DEVNAME;
-				
-				$deviceArray[$r0->ID]['LINE']=$r0->DEVNAME.' - ';
+				$deviceArray[$r0->ID]['ENV']='';
+				$deviceArray[$r0->ID]['PRO']='';
 			}
 			
-			if($r0->PRONAME != ''){$deviceArray[$r0->ID]['LINE'].= $r0->PRONAME.' ('.$r0->ENVNAME.') ';}
-			elseif($r0->ENVNAME != ''){$deviceArray[$r0->ID]['LINE'].=$r0->ENVNAME.' ';}
+			if($r0->PRONAME != ''){$deviceArray[$r0->ID]['PRO'].= $r0->PRONAME.',';}
+			if($r0->ENVNAME != ''){$deviceArray[$r0->ID]['ENV'].= $r0->ENVNAME.',';}
 		}
+		$q0->closeCursor();
 		
-		echo '
-		<form class="ui-filterable">
-			<input id="rich-autocomplete-input" data-type="search" placeholder="Search a device">
-		</form>
-		<ul data-role="listview" data-filter="true" data-inset="true" data-input="#rich-autocomplete-input">
-			';
-		foreach($deviceIndex as $deviceId) {
-			echo '<li data-filtertext="'.$deviceArray[$deviceId]['NAME'].':'.$deviceArray[$deviceId]['LINE'].'"><a href="index.php?g=cmdb&p=devices&a=deviceDesc&deviceId='.$deviceId.'">'.$deviceArray[$deviceId]['LINE'].'</a></li>';
+		foreach($deviceIndex as $devId) 
+		{
+			if(strlen($deviceArray[$devId]['PRO'])>0){$deviceArray[$devId]['PRO']=substr($deviceArray[$devId]['PRO'],0,strlen($deviceArray[$devId]['PRO'])-1);}
+			if(strlen($deviceArray[$devId]['ENV'])>0){$deviceArray[$devId]['ENV']=substr($deviceArray[$devId]['ENV'],0,strlen($deviceArray[$devId]['ENV'])-1);}
+
+			array_push(
+				$dataArray['data'],
+				array( 
+				"NAME" => '<a href="index.php?g=cmdb&p=devices&a=deviceDesc&deviceId='.$deviceArray[$devId]['ID'].'">'.$deviceArray[$devId]['NAME'].'</a>' , 
+				"PRO" => $deviceArray[$devId]['PRO'] ,
+				"ENV" => $deviceArray[$devId]['ENV'] ,
+				"ACTION" => ''
+				)
+			);
 		}
+		echo json_encode($dataArray);
+	break;
+	default:
 		echo '
-		</ul>
-			';
+<div class="box">
+	<div class="box-header">
+		<h3 class="box-title">Devices list</h3>
+	</div>
+	<div class="box-body">
+		<table id="dataTable" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Project</th>
+					<th>Environment</th>
+					<th><a href="#" onClick="dataTable.ajax.reload();"><span class="iconastic-refresh"> Rafraichir</a> </th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+		'; //<a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_parameters&a=create_form\');"><span class="iconfa-plus-square"> Ajouter</span></a>
+
+echo '
+<script>
+var dataTable = 
+$(\'#dataTable\').DataTable( {
+    "ajax": "index.php?m=a&g=cmdb&p=devices&a=jsonList",
+    "columns": [
+        { "data": "NAME" },
+        { "data": "PRO" },
+        { "data": "ENV" },
+        { "data": "ACTION" }
+    ]
+} );
+dataTable.order( [ 0, \'asc\' ] ).draw();
+</script>
+';
     break;
 }
 ?>

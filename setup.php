@@ -11,7 +11,7 @@ $_SESSION['USER_ID']=-1;
 
 require_once('plugins/core/__functions.php');
 
-$version=0.001;
+$version=0.002;
 
 
 

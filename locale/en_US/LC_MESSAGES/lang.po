@@ -1,7 +1,19 @@
-#: wp-comments-post.php:13
+#: Choix de la langue
 msgid "#1"
-msgstr "Sorry, comments are closed for this item."
+msgstr "Language selection"
 
-#: wp-comments-post.php:29
-msgid "a"
-msgstr "Entschuldige, aber zum kommentieren musst du angemeldet sein."
+#: MENU PRINCIPAL
+msgid "#2"
+msgstr "MAIN NAVIGATION"
+
+#: Accueil
+msgid "#3"
+msgstr "Home"
+
+#: A propos
+msgid "#4"
+msgstr "About"
+
+#: Administration
+msgid "#5"
+msgstr "Administration"

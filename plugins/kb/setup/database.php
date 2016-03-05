@@ -18,6 +18,7 @@ $databaseArray['ORACLE']['create_index'] = array();
 $databaseArray['MYSQL']['create_frame'] = array(
 'CREATE TABLE IF NOT EXISTS <prefix>kb_class (
 	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	id_parent BIGINT UNSIGNED NOT NULL,
 	name varchar(25),
 	created_date INT UNSIGNED DEFAULT NULL,
 	edited_date INT UNSIGNED DEFAULT NULL,

@@ -8,6 +8,8 @@ require_once('plugins/core/_auth_method.class.php');
 require_once('plugins/core/_group.class.php');
 require_once('plugins/core/_user.class.php');
 require_once('plugins/core/_parameter.class.php');
+require_once('plugins/core/_locale.class.php');
+require_once('plugins/core/_translation.class.php');
 require_once('plugins/core/_processus.class.php');
 require_once('plugins/core/_access.class.php');
 require_once('plugins/core/_object.class.php');
@@ -135,6 +137,7 @@ class initialisation {
 		}
   		if (isset($_GET["lang"])) {
 		  $lang = $_GET["lang"];
+		  $_SESSION["lang"] = $lang;
 		  self::$ini['DEFAULT_LANGUAGE']=$lang;
   		}
   		elseif (isset($_SESSION["lang"])) {
@@ -143,7 +146,7 @@ class initialisation {
   		else {
 		  $lang = "en_US";
   		}
-  		$lang = "en_US"; // TODO remove
+  		
 		if(function_exists('bindtextdomain'))
 		{
 			putenv("LANG=$lang"); 

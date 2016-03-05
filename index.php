@@ -3,6 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors',1);
 
 ini_set('session.gc_maxlifetime', 86400);
+ini_set('session.gc_maxlifetime',84600);
 
 date_default_timezone_set("Europe/Paris");
 
@@ -96,10 +97,10 @@ switch ($m) {
 			include('plugins/core/404.php');
     	}
 
-		echo '<!-- Reload jquery theme -->';
-		echo '<script>$( \'#popup\' ).trigger(\'create\');</script>';	
-		echo '<!-- On repositionne le pop up en cas de chargement Ajax -->';
-		echo '<script>$( \'#popup\' ).popup( \'reposition\', \'positionTo: window\' );</script>';
+		//echo '<!-- Reload jquery theme -->';
+		//echo '<script>$( \'#popup\' ).trigger(\'create\');</script>';	
+		//echo '<!-- On repositionne le pop up en cas de chargement Ajax -->';
+		//echo '<script>$( \'#popup\' ).popup( \'reposition\', \'positionTo: window\' );</script>';
 	
 	break;
 	// Default case
@@ -124,33 +125,40 @@ switch ($m) {
 	<!-- Library Jquery and Bootstrap -->
 	<?php
 	if (getBrowserAgentVersion() <= 8 ) {// IE ... , 7 and 8 case
-		echo '	<link rel="stylesheet"  href="lib/jqueryMobile/1.4.0/themes/default/jquery.mobile-1.4.0.min.css">'."\n";
-		echo '	<link rel="stylesheet"  href="lib/bootstrap/3.3.6/css/bootstrap.min.css">'."\n";
-		echo '	<link rel="stylesheet"  href="lib/summerNote/summernote.css">'."\n";
+		//echo '	<link rel="stylesheet"  href="lib/jqueryMobile/1.4.0/themes/default/jquery.mobile-1.4.0.min.css">'."\n";
 		echo '	<script src="lib/jquery/jquery-1.11.3.min.js"></script>'."\n";
-		echo '	<script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>'."\n";
-		echo '	<script src="lib/summerNote/summernote.min.js"></script>'."\n";
 		echo '  <script type="text/javascript">$(document).bind("mobileinit", function () {$.mobile.ajaxEnabled = false;});</script> <!-- Desactive le data-ajax par défaut pour Jquery-mobile -->';
-		echo '	<script src="lib/jqueryMobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>'."\n";
+		//echo '	<script src="lib/jqueryMobile/1.4.0/jquery.mobile-1.4.0.min.js"></script>'."\n";
 	} else { 
-		echo '	<link rel="stylesheet"  href="lib/jqueryMobile/1.4.5/jquery.mobile-1.4.5.min.css">'."\n";
-		echo '	<link rel="stylesheet"  href="lib/bootstrap/3.3.6/css/bootstrap.min.css">'."\n";
-		echo '	<link rel="stylesheet"  href="lib/summerNote/summernote.css">'."\n";
+		//echo '	<link rel="stylesheet"  href="lib/jqueryMobile/1.4.5/jquery.mobile-1.4.5.min.css">'."\n";
 		echo '	<script src="lib/jquery/jquery-2.1.4.min.js"></script>'."\n";
-		echo '	<script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>'."\n";
-		echo '	<script src="lib/summerNote/summernote.min.js"></script>'."\n";
 		echo '  <script type="text/javascript">$(document).bind("mobileinit", function () {$.mobile.ajaxEnabled = false;});</script> <!-- Desactive le data-ajax par défaut pour Jquery-mobile -->';
-		echo '	<script src="lib/jqueryMobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>'."\n";
+		//echo '	<script src="lib/jqueryMobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>'."\n";
 	}
 	?>
 	
-	<!-- Librairie awesome fonts -->
-	<link rel="stylesheet" href="lib/fontastics/PACK201509/font-awesome.css">
+	<!-- Library awesome and ion fonts -->
+	<link rel="stylesheet" href="lib/fontastics/PACK201602/fontastics.css">
+	
+	<!-- Library flags -->
+	<link rel="stylesheet" href="lib/flags/libflags.css">
 	
 	<!-- Library bootstrap -->
-	
+	<link rel="stylesheet"  href="lib/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	
 	<!-- Library summerNote -->
+	<link rel="stylesheet"  href="lib/summerNote/summernote.css">
+	<script src="lib/summerNote/summernote.min.js"></script>
+	
+	<!-- Library adminLteTheme -->
+	<link rel="stylesheet"  href="lib/adminLteTheme/css/AdminLTE.min.css">
+	<link rel="stylesheet"  href="lib/adminLteTheme/css/skins/_all-skins.min.css">
+	<script src="lib/adminLteTheme/js/app.min.js"></script>
+	
+	<!-- Library datatables -->
+	<script src="lib/adminLteTheme/plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="lib/adminLteTheme/plugins/datatables/dataTables.bootstrap.min.js"></script>
 	
 	<!-- Js et Css -->
 	<link rel="stylesheet" href="css/_main.css">
@@ -159,6 +167,10 @@ switch ($m) {
 	<script type="text/javascript">
 function insertLoader(div) {
 	$(div).html('<img src="<?php if(get_ini('LOADER')==''){echo get_ini('LOADER');}else{echo 'images/loader.gif';} ?>" alt="loader" height="47" width="48" style="magin: 25 25 25 25;">');
+}
+
+function setPopupTitle(content) {
+	$('#popupTitle').html( content );
 }
 	
 function popupFormSubmit(url,data) {
@@ -177,33 +189,96 @@ function popupFormSubmit(url,data) {
 	<style>
 <?php
 // Display the logo to the right height/width for mobile device
-list($logoWidth,$logoHeight) = getNewSizePicture(get_ini('LOGO'),"128","64");
+list($logoWidth,$logoHeight) = getNewSizePicture(get_ini('LOGO'),"32","16");
 echo '@media (max-width: 60em) {#mainLogo {height: '.$logoHeight.'px;width: '.$logoWidth.'px;}}';
 ?>
 	</style>
 </head>
-<body>
-<div data-role="page" class="ui-page">
+<body class="hold-transition skin-blue sidebar-mini">
 
-	<!-- Popup container -->
-	<div data-role="popup" id="popup"  data-overlay-theme="b" data-theme="a" class="ui-corner-all">
-	<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+<div class="wrapper">
+	<header class="main-header">
 
-	<!-- Header container -->
-	<form id="popupForm" onsubmit="return false;" autocomplete="off">
-	<div id="popupContent" style="padding:10px 20px;"></div>
-	</form>
-	</div>
+		<!-- Logo -->
+		<a href="index.php" class="logo">
+		<!-- mini logo for sidebar mini 50x50 pixels -->
+		<span class="logo-mini"><b>G</b>LAB</span>
+		<!-- logo for regular state and mobile devices -->
+		<span class="logo-lg"><b>Gobelins</b>LAB</span>
+		</a>
 
-	<div data-role="header" id="ui-header">
-		<h2><img id="mainLogo" src="<?php echo get_ini('LOGO'); ?>" alt="SquareBrain"></h2>
-		<!-- <p>v<?php echo get_ini('VERSION'); ?></p> -->
-		<a href="#ui-navmenu" id="ui-navmenu-pannel-link" data-icon="bars" data-iconpos="notext" class="=ui-btn ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
-		<a href="#popup" data-rel="popup" id="ui-infos-pannel-link" data-position-to="window" data-icon="user" data-iconpos="notext" class="=ui-btn ui-nodisc-icon ui-alt-icon ui-btn-right" onClick="insertLoader('#popupContent');$('#popupContent').load('index.php?m=a&g=core&p=login&step=1');">Infos</a>
-	</div><!-- /header -->
+		<!-- Header Navbar: style can be found in header.less -->
+		<nav class="navbar navbar-static-top" role="navigation">
 
-	<div role="main" id="ui-content">
+			<!-- Sidebar toggle button-->
+			<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+			<span class="sr-only">Toggle navigation</span>
+			</a>
+		
+			<!-- Navbar Right Menu -->
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+				
 
+					<!-- processus -->
+<?php include_once('plugins/core/messages.php'); ?>
+					<!-- end processus -->   
+
+					<!-- events -->
+<?php include_once('plugins/core/events.php'); ?>
+					<!-- end events -->  
+
+					<!-- processus -->
+<?php include_once('plugins/core/processus.php'); ?>
+					<!-- end processus -->   
+    
+					<!-- language selection -->
+<?php include_once('plugins/core/languages_selection.php'); ?>
+					<!-- end language selection -->
+			
+					<!-- login form -->
+<?php include_once('plugins/core/login.php'); ?>
+					<!-- end login form -->
+					
+					<!--
+					<li>
+						<a href="#" data-toggle="control-sidebar"><i class="icon iconastic-gears-setting"></i></a>
+					</li>
+					-->
+				</ul>
+			</div>
+	
+		</nav>
+	</header>
+
+
+	<!-- Left side column. contains the logo and sidebar -->
+	<aside class="main-sidebar">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- Sidebar user panel -->
+<?php require('./plugins/core/menu.php'); ?>
+		</section>
+		<!-- /.sidebar -->
+	</aside>
+
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>
+			...
+			<small>Version <?php echo get_ini('VERSION'); ?></small>
+			</h1>
+			<ol class="breadcrumb">
+				<li><i class="icon iconastic-sitemap"></i> <?php echo $g; ?></li>
+				<li class="active"><?php echo $p; ?></li>
+			</ol>
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+    
 <?php
 if($g==''||$p=='')
 {
@@ -219,26 +294,51 @@ else
 	include('plugins/core/404.php');
 }
 ?>
-		
-	</div> <!-- /content -->
-	
-	<!-- Panel container -->
-	<div data-role="panel" id="ui-navmenu" class="" data-position="left" data-display="overlay" data-dismissible="true" data-theme="a">
-		<?php require('./plugins/core/menu.php'); ?>
-	</div> 
+		</section>
+		<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
 
-	<div class="css-clear"></div>
-	
-	<div data-role="footer" id="ui-footer">
-		<p>Julien SIMON / 2015</p>
-		<p>Version <?php echo get_ini('VERSION'); ?></p>
-		<p>Powered by SquareBrain</p>
-		<div class="css-clear"></div>
-	</div><!-- /footer -->
-	
+	<!-- footer -->
+<?php include_once('plugins/core/footer.php'); ?>
+	<!-- end footer -->
+
+	<!-- Control Sidebar -->
+	<aside class="control-sidebar control-sidebar-dark">
+		<!-- settings tab -->
+<?php include_once('plugins/core/settings.php'); ?>
+		<!-- end settings tab -->
+	</aside>
+	<!-- /.control-sidebar -->
+	<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
+	<div class="control-sidebar-bg"></div>
+
+</div>
+<!-- ./wrapper -->
 
 
-</div><!-- /page -->
+<!-- Modal -->
+<div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 id="popupTitle" class="modal-title"></h4>
+			</div>
+			<form id="popupForm" onsubmit="return false;" autocomplete="off">
+				<div id="popupContent" class="modal-body"></div>
+			</form>
+			<!--
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+			-->
+		</div>
+	</div>
+</div>
+<!-- end Modal -->
+
 
 </body>
 </html>

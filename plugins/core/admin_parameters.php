@@ -8,21 +8,35 @@ switch ($a) {
         $param = new parameter($id); 
                
         echo '
-Parameter : <BR>
-<input type="text" value="'.$param->name.'" DISABLED> <BR>
-Value<BR>
-<input name="parameterValue" type="text" value="'.$param->parameterValue.'"> <BR>
-Default : <BR>
-<input type="text" value="'.$param->defaultValue.'" DISABLED> <BR>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon"><i class="icon iconastic-quote"></i></span>
+		<input type="text" class="form-control" value="'.$param->name.'" DISABLED>
+	</div>
+</p>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon"><i class="icon iconastic-edit-write"></i></span>
+		<input name="parameterValue" type="text" class="form-control" value="'.$param->parameterValue.'">
+	</div>
+</p>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon"><i class="icon iconastic-ios-pricetags"></i></span>
+		<input type="text" class="form-control" value="'.$param->defaultValue.'" DISABLED>
+	</div>
+</p>
 <input name="id" type="hidden" value="'.$param->id.'"> 
-<input name="submit" value="Modifier" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_parameters&a=update\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
+<button type="button" class="btn btn-primary" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_parameters&a=update\',$(\'form#popupForm\').serialize());">
+Modifier
+</button>
 		';
     break;
     case 'update':
     	if(isset($_GET['id'])){$id=$_GET['id'];}elseif(isset($_POST['id'])){$id=$_POST['id'];}else{
     		// TODO ERROR
     	} 
-    	if(!isset($_POST['parameterValue'])||$_POST['parameterValue']==''){
+    	if(!isset($_POST['parameterValue'])){
         	// Todo error
         	echo 'erreur value';
         } else {
@@ -31,13 +45,14 @@ Default : <BR>
             $paramM->update($id,$_POST['parameterValue']);
             
             // TODO
-            echo 'good!';
+            echo 'Le paramètre vient d\'être modifié!';
             
-            echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_parameters&a=list\');</script>';
+            echo '<script type="text/javascript">dataTable.ajax.reload();</script>';
         }
     break;
     // Display the table content
-    case 'list':
+    case 'jsonList':
+    	$dataArray['data'] = array();
 		$q0=get_link()->prepare("SELECT 
 									param.id AS ID,
 									param.id_plugin AS ID_PLUGIN,
@@ -60,47 +75,66 @@ Default : <BR>
 $q0->execute();
 while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
 {
-    echo '
-<tr>
-    <td>'.$r0->ID.'</td>
-    <td>'.$r0->PLUGINNAME.'</td>
-    <td>'.$r0->NAME.'</td>
-    <td>'.$r0->PARAMETER_VALUE.'</td>
-    <td>'.$r0->DEFAULT_VALUE.'</td>
-    <td>
-        <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_parameters&a=update_form&id='.$r0->ID.'\');"><span class="iconfa-edit-write"> Modifier</span></a>
-        
-    </td>
-</tr>
-	';//<a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_parameters&a=delete_form&id='.$r0->ID.'\');"><span class="iconfa-minus-line"> Supprimer</span></a>
+	array_push(
+		$dataArray['data'],
+		array( 
+			"ID" => $r0->ID ,
+			"PLUGINNAME" => $r0->PLUGINNAME ,
+			"NAME" => $r0->NAME ,
+			"PARAMETER_VALUE" => $r0->PARAMETER_VALUE ,
+			"DEFAULT_VALUE" => $r0->DEFAULT_VALUE ,
+			"ACTION" => '<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le paramètre\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_parameters&a=update_form&id='.$r0->ID.'\');"><span class="iconastic-edit-write"> Modifier </span></a>'
+		)
+	);
 }
 $q0->closeCursor();
+
+echo json_encode($dataArray);
+
     break;
     // Display Html table container
     default:
 		echo '
-<table class="pretty-table">
-<thead>
-<tr>
-    <th>Id</th>
-    <th>Plugin</th>
-    <th>Name</th>
-    <th>Value</th>
-    <th>Default</th>
-    <th><a href="#" onClick="$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_parameters&a=list\');"><span class="iconfa-refresh"> Rafraichir</a> </th>
-</tr>
-</thead>
-<tbody id="tableList">
-<tr><td><img src="'.get_ini('LOADER').'"></td></tr>
-</tbody>
-</table>
-
-<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_parameters&a=list\');</script>
+<div class="box">
+	<div class="box-header">
+		<h3 class="box-title">Liste des paramètres</h3>
+	</div>
+	<div class="box-body">
+		<table id="dataTable" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Plugin</th>
+					<th>Name</th>
+					<th>Value</th>
+					<th>Default</th>
+					<th><a href="#" onClick="dataTable.ajax.reload();"><span class="iconastic-refresh"> Rafraichir</a> </th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
 		'; //<a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_parameters&a=create_form\');"><span class="iconfa-plus-square"> Ajouter</span></a>
+
+echo '
+<script>
+var dataTable = 
+$(\'#dataTable\').DataTable( {
+    "ajax": "index.php?m=a&g=core&p=admin_parameters&a=jsonList",
+    "columns": [
+        { "data": "ID" },
+        { "data": "PLUGINNAME" },
+        { "data": "NAME" },
+        { "data": "PARAMETER_VALUE" },
+        { "data": "DEFAULT_VALUE" },
+        { "data": "ACTION" }
+    ]
+} );
+dataTable.order( [ 2, \'asc\' ] ).draw();
+</script>
+';
     break;
 }
 
 ?>
-
-
 
