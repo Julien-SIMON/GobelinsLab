@@ -1,5 +1,6 @@
 <?php
-if($_SESSION['USER_ID']>0){
+$userM = new userManager(); 
+if($_SESSION['USER_ID']>0&&$_SESSION['USER_ID']!=$userM->getIdByName('guest')){
 	switch ($a) {
 	    case 'logout':
 			unset($_SESSION);
@@ -396,7 +397,6 @@ Créer un compte
 				}
 			}
 		echo '
-			</div>
 		</li>
 	</ul>
 </li>

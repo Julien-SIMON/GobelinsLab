@@ -17,13 +17,13 @@ $version=0.002;
 
 if(!isset($s)){if(isset($_GET['s'])){$s=$_GET['s'];}elseif(isset($_POST['s'])){$s=$_POST['s'];}} // Step
 
-if($s>19&&!is_file('conf/config.ini')){ $s=-2; } // If config file does not exist and a poststep is call, cancel
-elseif($s<=19&&is_file('conf/config.ini')){ $s=-3; } // If config file exist and a prestep is call, cancel
+if(isset($s)&&$s>19&&!is_file('conf/config.ini')){ $s=-2; } // If config file does not exist and a poststep is call, cancel
+elseif(isset($s)&&$s<=19&&is_file('conf/config.ini')){ $s=-3; } // If config file exist and a prestep is call, cancel
 
 // Define the current step
 if(!isset($s)) {
 	if(!is_file('conf/config.ini')){
-		$s=10;
+		$s=1;
 	} else {
 		$s=20;
 	}
@@ -162,6 +162,8 @@ You cannot generate another config file. One are already present. Please go at t
 		if($tableM->getId('core_groups')==0)			{$tableM->create('core_groups');}
 		if($tableM->getId('core_pages')==0)				{$tableM->create('core_pages');}
 		if($tableM->getId('core_processus')==0)			{$tableM->create('core_processus');}
+		if($tableM->getId('core_parameters')==0)		{$tableM->create('core_parameters');}
+		if($tableM->getId('core_pages')==0)				{$tableM->create('core_pages');}
 
 		$init = new initialisation();
 		
@@ -175,6 +177,14 @@ You cannot generate another config file. One are already present. Please go at t
 		}
 
 		$init = new initialisation();
+		
+		// Add locale 
+		echo ' - Fill locale table<BR>';
+		$locM = new localeManager(); 
+        if($locM->getId('fr_FR')==0) 					{$locM->create('fr_FR','Français','icon-libflags-fr');}
+		if($locM->getId('en_US')==0) 					{$locM->create('en_US','American','icon-libflags-us');}
+		if($locM->getId('de_DE')==0) 					{$locM->create('de_DE','Deutsch','icon-libflags-de');}
+		if($locM->getId('it_IT')==0) 					{$locM->create('it_IT','Italiano','icon-libflags-it');}
 		
 		// Add default auth method
 		echo ' - Fill auth methods table<BR>';
@@ -278,8 +288,7 @@ You cannot generate another config file. One are already present. Please go at t
 		if($parameterM->getId(getPluginId('core'),'DEFAULT_HOME_PAGE')==0)		{$parameterM->create(getPluginId('core'),'DEFAULT_HOME_PAGE','all','all');}
 
 		if($parameterM->getId(getPluginId('core'),'VERSION')==0)			{$parameterM->create(getPluginId('core'),'VERSION',$version,'');}
-		
-		
+
 		echo '<BR><BR><a href="setup.php?s=100"><span class="icon iconfa-stackoverflow"> Finalize setup operation</a>';
 		
 	break;

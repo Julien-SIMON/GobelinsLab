@@ -11,16 +11,20 @@ session_start();
 
 if(!isset($p)){if(isset($_GET['p'])){$p=$_GET['p'];}elseif(isset($_POST['p'])){$p=$_POST['p'];}else{$p='';}} // page
 if(!isset($g)){if(isset($_GET['g'])){$g=$_GET['g'];}elseif(isset($_POST['g'])){$g=$_POST['g'];}else{$g='core';}} // plugins
-if(!isset($m)){if(isset($argv[0])){$m='t';$_SESSION['USER_ID']=0;}elseif(isset($_GET['m'])){$m=$_GET['m'];}elseif(isset($_POST['m'])){$m=$_POST['m'];}else{$m='';}} // method ("a"=ajax, "t"=thread, "j"=job, ""=default)
+if(!isset($m)){if(isset($argv[0])){$m='t';$userM = new userManager();$_SESSION['USER_ID']=$userM->getIdByName('process');}elseif(isset($_GET['m'])){$m=$_GET['m'];}elseif(isset($_POST['m'])){$m=$_POST['m'];}else{$m='';}} // method ("a"=ajax, "t"=thread, "j"=job, ""=default)
 if(!isset($a)){if(isset($_GET['a'])){$a=$_GET['a'];}elseif(isset($_POST['a'])){$a=$_POST['a'];}else{$a='';}} // action
-
-// Set USER_ID for anonymous connexion
-if(!isset($_SESSION['USER_ID'])){$_SESSION['USER_ID']=-1;}
 
 // Call functions file
 require_once('plugins/core/__functions.php');
 $init = new initialisation();
 $rijn = new rijn();
+
+// Set USER_ID for anonymous connexion
+if(!isset($_SESSION['USER_ID']))
+{
+	$userM = new userManager(); 
+	$_SESSION['USER_ID']=$userM->getIdByName('guest');
+}
 
 // On ajoute les fichiers de connexion externe (Facebook, Google, ...)
 // On positionne une variable de session en cas de demande de connexion OAuth

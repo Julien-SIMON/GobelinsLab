@@ -1,75 +1,14 @@
 <?php
 // ------------------------------------------------------------------- //
-// Add this statements only on the admin_plugins and setup page. This check if the current user is in the admins group
+// Add this statements to all you page. Secure at top level.
 // ------------------------------------------------------------------- //
-$groupM = new groupManager();
-$user = new user($_SESSION['USER_ID']);
-if(!isset($user->groupIdArray)||!in_array($groupM->getId('admins'),$user->groupIdArray)){include('plugins/core/403.php');exit(403);}
+if(!secFile(__FILE__,100)){return;}
 // ------------------------------------------------------------------- //
 
 
 
 switch ($a) {
-/*
-    case 'create_form':
-        echo '
-Mail<BR>
-<input name="mail" type="text" value=""> <BR>
-Name<BR>
-<input name="name" type="text" value=""> <BR>
-Last name<BR>
-<input name="lastName" type="text" value=""> <BR>
-First name<BR>
-<input name="firstName" type="text" value=""> <BR>
-Avatar<BR>
-<input name="avatar" type="text" value="'.get_ini('DEFAULT_AVATAR').'"> <BR>
-
-<select name="isSendMail" data-role="slider">
-	<option value="FALSE">Off</option>
-	<option value="TRUE" selected>On</option>
-</select> <BR>
-
-<input name="submit" value="envoyer" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_users&a=create\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
-		';
-    break;
-    case 'create':
-        if(!isset($_POST['mail'])||$_POST['mail']==''||!mailCheck($_POST['mail'])){
-        	// Todo error
-        	echo 'erreur mail';
-        } elseif(!isset($_POST['name'])||$_POST['name']=='') {
-        	// Todo error
-        	echo 'erreur name';
-        } elseif(!isset($_POST['avatar'])||$_POST['avatar']=='') {
-        	// Todo error
-        	echo 'erreur avatar';
-        } elseif(!isset($_POST['firstName'])||$_POST['firstName']=='') {
-        	// Todo error
-        	echo 'erreur firstName';
-        } elseif(!isset($_POST['lastName'])||$_POST['lastName']=='') {
-        	// Todo error
-        	echo 'erreur lastName';
-        } elseif(!isset($_POST['isSendMail'])) {
-        	// Todo error
-        	echo 'erreur isSendMail';
-        } else {
-            $userM = new userManager(); 
-           
-            if($userM->getId($_POST['mail'])==0) {
-            	$userM->register('LOCAL',$_POST['name'],'',$_POST['avatar'],$_POST['lastName'],$_POST['firstName'],$_POST['mail'],$_POST['isSendMail']);
-                //$userM->create($_POST['name'],$_POST['avatar'],$_POST['mail']);
-                
-                // TODO
-                echo 'good!';
-                
-                echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_users&a=list\');</script>';
-            } else {
-            	// TODO
-                echo 'Cet utilisateur existe déjà.';
-            }
-        }
-    break;
- */
-    case 'update_form':
+    case 'updateForm':
     	if(isset($_GET['id'])){$id=$_GET['id'];}elseif(isset($_POST['id'])){$id=$_POST['id'];}else{
     		// TODO ERROR
     	}
@@ -146,6 +85,41 @@ Etes vous sûr de vouloir supprimer le paramêtre '.$param->name.' ? <BR>
 		$plugin->updateActivated($value);
     break;
     // Display the table content
+    case 'setupJsonList':
+    	$dataArray['data'] = array();
+		$q0=get_link()->prepare("SELECT 
+									g.id AS ID,
+									g.name AS NAME,
+									g.activated AS ACTIVATED,
+									g.created_date AS CREATED_DATE,
+									g.created_id AS CREATED_ID,
+									g.edited_date AS EDITED_DATE,
+									g.edited_id AS EDITED_ID,
+									g.deleted_date AS DELETED_DATE,
+									g.deleted_id AS DELETED_ID
+								FROM 
+								".get_ini('BDD_PREFIX')."core_plugins g
+								WHERE 
+								g.deleted_date=0
+								ORDER BY g.name ASC"); 
+		$q0->execute();
+		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
+		{
+			array_push(
+				$dataArray['data'],
+				array( 
+					"ID" => $r0->ID ,
+					"NAME" => $r0->NAME ,
+					"ENABLE" => $r0->ACTIVATED ,
+					"ACTION" => '<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le plugin\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_plugins&a=updateForm&id='.$r0->ID.'\');"><span class="iconfa-edit-write"> Modifier</span></a>'
+				)
+			);
+		}
+		$q0->closeCursor();
+		
+		echo json_encode($dataArray);
+    break;
+    
     case 'setupList':
 		$q0=get_link()->prepare("SELECT 
 									g.id AS ID,
@@ -223,26 +197,39 @@ closedir($handle);
     // Display Html table container
     default: //<a href="#" onClick="$( \'#tableSetupList\' ).load(\'index.php?m=a&g=core&p=admin_plugins&a=setupList\');"><span class="iconfa-refresh"> Rafraichir</a>
 	echo '
-<table data-role="table" data-mode="columntoggle" class="ui-responsive table-stroke">
-	<thead>
-		<tr>
-			<th data-priority="5">Id</th>
-			<th data-priority="1">Name</th>
-			<th data-priority="1">Enable</th>
-			<th data-priority="1">Actions</th>
-		</tr>
-	</thead>
-	<tbody id="tableSetupList">
-		<tr>
-			<td>
-				<img src="'.get_ini('LOADER').'">
-			</td>
-		</tr>
-	</tbody>
-</table>
-	';
+<div class="box">
+	<div class="box-header">
+		<h3 class="box-title">Liste des plugins installés</h3>
+	</div>
+	<div class="box-body">
+		<table id="setupDataTable" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nom</th>
+					<th>Activé</th>
+					<th><a href="#" onClick="setupDataTable.ajax.reload();"><span class="iconastic-refresh"> Rafraichir</a> </th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
 
-	echo '
+<script>
+var setupDataTable = 
+$(\'#setupDataTable\').DataTable( {
+    "ajax": "index.php?m=a&g=core&p=admin_plugins&a=setupJsonList",
+    "columns": [
+        { "data": "ID" },
+        { "data": "NAME" },
+        { "data": "ENABLE" },
+        { "data": "ACTION" }
+    ]
+} );
+setupDataTable.order( [ 2, \'asc\' ] ).draw();
+</script>
+	
+
 <BR><BR>
 
 <table data-role="table" class="ui-responsive table-stroke">
@@ -261,7 +248,6 @@ closedir($handle);
 	</tbody>
 </table>
 
-<script type="text/javascript">$( \'#tableSetupList\' ).load(\'index.php?m=a&g=core&p=admin_plugins&a=setupList\',function(data){$(".table-stroke").table("rebuild");$(".flipswitch-select").slider();});</script>
 <script type="text/javascript">$( \'#tableAvailableList\' ).load(\'index.php?m=a&g=core&p=admin_plugins&a=availableList\',function(data){$(".table-stroke").table("rebuild");$(".flipswitch-select").slider();});</script>
 		'; //<a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_parameters&a=create_form\');"><span class="iconfa-plus-square"> Ajouter</span></a>
     break; //<a href="#" onClick="$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_plugins&a=list\');"><span class="iconfa-refresh"> Rafraichir</a>

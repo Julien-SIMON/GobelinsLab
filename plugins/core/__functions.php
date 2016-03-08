@@ -179,7 +179,14 @@ class initialisation {
 	}
 
 	public static function getTableId($name) {
-		return self::$tables[$name];
+		if(isset(self::$tables[$name]))
+		{
+			return self::$tables[$name];
+		}
+		else
+		{
+			return 0;
+		}
 	}
 	
 	public static function getPluginId($name) {
@@ -187,10 +194,10 @@ class initialisation {
 	}
 
 	public static function getObjectId($table_name,$id_ext) {
-	    // On vérifie que l'id de l'objet n'est pas déjà connu
+	    // Check if the ID is already known
 	    if(!isset(self::$objects[$table_name][$id_ext])) {
             $objM = new objectManager();
-            self::$objects[$table_name][$id_ext]=$objM->getId(get_table_id($table_name),$id_ext);
+            self::$objects[$table_name][$id_ext]=$objM->getId(self::getTableId($table_name),$id_ext);
 	    }
 	    
 		return self::$objects[$table_name][$id_ext];
@@ -231,11 +238,46 @@ class initialisation {
 	}
 	
 	public static function getAccess($targetObjectId) {
-	    if(!isset(self::$userAccessArray[$targetObjectId])) {
-			self::$userAccessArray[$targetObjectId] = self::$accessM->getLevel($targetObjectId);
-	    }
-	    
-		return self::$userAccessArray[$targetObjectId];
+		if($targetObjectId>0)
+		{
+	    	if(!isset(self::$userAccessArray[$targetObjectId])) {
+				self::$userAccessArray[$targetObjectId] = self::$accessM->getLevel($targetObjectId);
+	    	}
+	    	
+			return self::$userAccessArray[$targetObjectId];
+		}
+		else // If the object does not exist.
+		{
+			return -1;
+		}
+	}
+	
+	public static function secThis($targetTable,$targetId,$accessLevel) {
+		if(self::getAccess(self::getObjectId($targetTable,$targetId))>=$accessLevel)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public static function secFile($filePath,$accessLevel) {
+		$filePath = strtolower(str_replace('\\', '/',$filePath));
+		
+		$page = substr($filePath,strrpos($filePath,'/')+1,strlen($filePath)-strrpos($filePath,'/')-5);
+		$plug = substr($filePath,strrpos($filePath,'/',-(strlen($page)+6))+1,strrpos($filePath,'/')-strrpos($filePath,'/',-(strlen($page)+6))-1);
+		
+		if(self::secThis('core_plugins',self::getPluginId($plug),$accessLevel) || secThis('core_pages',self::getTableId($page),$accessLevel))
+		{
+			return true;
+		}
+		else
+		{
+			include('plugins/core/403.php');
+			return false;
+		}
 	}
 }
 
@@ -278,6 +320,14 @@ function logIt($idPlugin,$log) {
 
 function getAccess($targetObjectId) {
 	return initialisation::getAccess($targetObjectId);
+}
+
+function secFile($filePath,$accessLevel) {
+	return initialisation::secFile($filePath,$accessLevel);
+}
+
+function secThis($targetTable,$targetId,$accessLevel) {
+	return initialisation::secThis($targetTable,$targetId,$accessLevel);
 }
 
 /*

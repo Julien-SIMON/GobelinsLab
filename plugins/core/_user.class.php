@@ -83,7 +83,7 @@ class userManager {
 
 		// Create the object
 		$obj = new objectManager();
-		$obj->create(get_table_id('core_users'),$this->getId($mail));
+		$obj->create(get_table_id('core_users'),$this->getIdByName(strtolower($name)));
 		
 		return $this->getId($mail);
 	}
@@ -189,90 +189,74 @@ class user extends dbEntry {
 	function user($id){
 		$this->id = $id;
 		
-		if($_SESSION['USER_ID']>0) {
-			// Get the user informations
-			$q0=get_link()->prepare("SELECT 
-										usr.id AS ID,
-										usr.name AS NAME,
-										usr.avatar AS AVATAR,
-										usr.mail AS MAIL,
+		// Get the user informations
+		$q0=get_link()->prepare("SELECT 
+									usr.id AS ID,
+									usr.name AS NAME,
+									usr.avatar AS AVATAR,
+									usr.mail AS MAIL,
+									obj.id AS OBJECTID,
+									usr.created_date AS CREATED_DATE,
+									usr.created_id AS CREATED_ID,
+									usr.edited_date AS EDITED_DATE,
+									usr.edited_id AS EDITED_ID,
+									usr.deleted_date AS DELETED_DATE,
+									usr.deleted_id AS DELETED_ID
+								FROM 
+								".get_ini('BDD_PREFIX')."core_users usr,
+								".get_ini('BDD_PREFIX')."core_objects obj
+								WHERE 
+									usr.id=obj.id_ext AND
+									obj.id_table=:id_table AND
+									obj.deleted_date=0 AND
+									usr.id=:id"); 
+		$q0->execute(array( 'id' => $id , 'id_table' => get_table_id('core_users') ));
+		$r0 = $q0->fetch(PDO::FETCH_OBJ);
+		if(isset($r0->ID))
+		{
+			$this->name = $r0->NAME;
+			$this->avatar = $r0->AVATAR;
+			$this->mail = $r0->MAIL;
+			$this->objectId = $r0->OBJECTID;
+			$this->createdDate = $r0->CREATED_DATE;
+			$this->createdID = $r0->CREATED_ID;
+			$this->editedDate = $r0->EDITED_DATE;
+			$this->editedId = $r0->EDITED_ID;
+			$this->deletedDate = $r0->DELETED_DATE;
+			$this->deltedId = $r0->DELETED_ID;
+			
+			// Map user groups and get the object id
+			$this->groupIdArray = array();
+			$this->groupObjectIdArray = array();
+			$q1=get_link()->prepare("SELECT 
 										obj.id AS OBJECTID,
-										usr.created_date AS CREATED_DATE,
-										usr.created_id AS CREATED_ID,
-										usr.edited_date AS EDITED_DATE,
-										usr.edited_id AS EDITED_ID,
-										usr.deleted_date AS DELETED_DATE,
-										usr.deleted_id AS DELETED_ID
+										map.group_id AS GROUPID
 									FROM 
-									".get_ini('BDD_PREFIX')."core_users usr,
-									".get_ini('BDD_PREFIX')."core_objects obj
-									WHERE 
-										usr.id=obj.id_ext AND
-										obj.id_table=:id_table AND
+										".get_ini('BDD_PREFIX')."core_groups_users_map map,
+										".get_ini('BDD_PREFIX')."core_objects obj
+									WHERE
 										obj.deleted_date=0 AND
-										usr.id=:id"); 
-			$q0->execute(array( 'id' => $id , 'id_table' => get_table_id('core_users') ));
-			$r0 = $q0->fetch(PDO::FETCH_OBJ);
-			if(isset($r0->ID))
+										map.deleted_date=0 AND
+										map.user_id = :id AND
+										map.group_id = obj.id_ext AND
+										obj.id_table = :id_table
+									");
+			$q1->execute(array( 'id' => $this->id , 'id_table' => get_table_id('core_groups') ));
+			while( $r1 = $q1->fetch(PDO::FETCH_OBJ) )
 			{
-				$this->name = $r0->NAME;
-				$this->avatar = $r0->AVATAR;
-				$this->mail = $r0->MAIL;
-				$this->objectId = $r0->OBJECTID;
-				$this->createdDate = $r0->CREATED_DATE;
-				$this->createdID = $r0->CREATED_ID;
-				$this->editedDate = $r0->EDITED_DATE;
-				$this->editedId = $r0->EDITED_ID;
-				$this->deletedDate = $r0->DELETED_DATE;
-				$this->deltedId = $r0->DELETED_ID;
-				
-				// Map user groups and get the object id
-				$this->groupIdArray = array();
-				$this->groupObjectIdArray = array();
-				$q1=get_link()->prepare("SELECT 
-											obj.id AS OBJECTID,
-											map.group_id AS GROUPID
-										FROM 
-											".get_ini('BDD_PREFIX')."core_groups_users_map map,
-											".get_ini('BDD_PREFIX')."core_objects obj
-										WHERE
-											obj.deleted_date=0 AND
-											map.deleted_date=0 AND
-											map.user_id = :id AND
-											map.group_id = obj.id_ext AND
-											obj.id_table = :id_table
-										");
-				$q1->execute(array( 'id' => $this->id , 'id_table' => get_table_id('core_groups') ));
-				$q1->setFetchMode(PDO::FETCH_OBJ);
-				while( $r1 = $q1->fetch(PDO::FETCH_OBJ) )
-				{
-					array_push($this->groupIdArray,$r1->GROUPID);
-				    array_push($this->groupObjectIdArray,$r1->OBJECTID);
-				}
-				$q1->closeCursor();
+				array_push($this->groupIdArray,$r1->GROUPID);
+			    array_push($this->groupObjectIdArray,$r1->OBJECTID);
 			}
-			else
-			{
-				// TODO add log management
-				echo 'The user don\'t exist.';
-				exit(100);
-			}
-			$q0->closeCursor();
-		} else { // If user is not login
-			$groupM = new groupManager();
-		
-			$this->name = 'Guest';
-			$this->avatar = get_ini('DEFAULT_AVATAR');
-			$this->mail = '';
-			$this->objectId = -1;
-			$this->createdDate = 0;
-			$this->createdID = 0;
-			$this->editedDate = 0;
-			$this->editedId = 0;
-			$this->deletedDate = 0;
-			$this->deltedId = 0;
-			$this->groupObjectIdArray = array($groupM->getId('guests'));
+			
+			$q1->closeCursor();
 		}
+		else
+		{
+			// TODO add log management
+			echo 'The user don\'t exist.';
+			exit(100);
+		}
+		$q0->closeCursor();
 	}
 	
 	function updatePassword($password,$isSendMail='TRUE') {

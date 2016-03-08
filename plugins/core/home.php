@@ -1,4 +1,11 @@
 <?php
+// ------------------------------------------------------------------- //
+// Add this statements to all you page. Secure at top level.
+// ------------------------------------------------------------------- //
+if(!secFile(__FILE__,10)){return;}
+// ------------------------------------------------------------------- //
+
+
 if(get_ini('DEFAULT_HOME_PAGE')=='all') {
 	foreach($init->pluginsIndex as $plugin){
 		if(is_file('plugins/'.$plugin.'/home.php')){

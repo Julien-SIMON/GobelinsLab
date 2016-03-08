@@ -1,10 +1,23 @@
 <?php
+// ------------------------------------------------------------------- //
+// Add this statements to all you page. Secure at top level.
+// ------------------------------------------------------------------- //
+if(!secFile(__FILE__,80)){return;}
+// ------------------------------------------------------------------- //
+
 switch ($a) {
     case 'create_form':
         echo '
-Entrez le nom du nouveau groupe:<BR>
-<input name="name" type="text" value=""> <BR>
-<input name="submit" value="envoyer" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_groups&a=create\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
+<p>
+	<div class="input-group">
+		<span class="input-group-addon"><i class="icon iconastic-edit-write"></i></span>
+		<input name="name" type="text" class="form-control" value=""  placeholder="Nom du groupe">
+	</div>
+</p>
+
+<button type="button" class="btn btn-primary" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_groups&a=create\',$(\'form#popupForm\').serialize());">
+Ajouter
+</button>	
 		';
     break;
     case 'create':
@@ -15,9 +28,9 @@ Entrez le nom du nouveau groupe:<BR>
                 $groupM->create($_POST['name']);
                 
                 // TODO
-                echo 'good!';
-                
-                echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_groups&a=list\');</script>';
+		    	echo 'Le groupe vient d\'être ajouté!';
+            
+            	echo '<script type="text/javascript">dataTable.ajax.reload();</script>';
             } else {
             	// TODO
                 echo 'Ce groupe existe déjà.';
@@ -32,10 +45,17 @@ Entrez le nom du nouveau groupe:<BR>
         $group = new group($id); 
                
         echo '
-Entrez le nouveau nom:<BR>
-<input name="name" type="text" value="'.$group->name.'"> <BR>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon"><i class="icon iconastic-edit-write"></i></span>
+		<input name="name" type="text" class="form-control" value="'.$group->name.'"  placeholder="Nom du groupe">
+	</div>
+</p>
 <input name="id" type="hidden" value="'.$id.'">
-<input name="submit" value="Modifier" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_groups&a=update\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
+
+<button type="button" class="btn btn-primary" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_groups&a=update\',$(\'form#popupForm\').serialize());">
+Modifier
+</button>
 		';
     break;
     case 'update':
@@ -49,10 +69,10 @@ Entrez le nouveau nom:<BR>
 			    $groupM->update($id,$_POST['name']);
 			    
 			    // TODO confirmation
-			    echo 'good!';
-			    
-			    echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_groups&a=list\');</script>';
-			} else {
+		    	echo 'Le groupe vient d\'être modifié!';
+            
+            	echo '<script type="text/javascript">dataTable.ajax.reload();</script>';
+            } else {
 				// TODO
 			    echo 'Ce groupe existe déjà.';
 			}
@@ -66,9 +86,11 @@ Entrez le nouveau nom:<BR>
         $group = new group($id); 
                
         echo '
-Etes vous sûr de vouloir supprimer l\'utilisateur '.$group->name.' ? <BR>
+Etes vous sûr de vouloir supprimer le groupe '.$group->name.' ? <BR>
 <input name="id" type="hidden" value="'.$id.'">
-<input name="submit" value="Supprimer" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_groups&a=delete\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
+<button type="button" class="btn btn-primary" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_groups&a=delete\',$(\'form#popupForm\').serialize());">
+Supprimer
+</button>
 		';
     break;
     case 'delete':
@@ -80,16 +102,16 @@ Etes vous sûr de vouloir supprimer l\'utilisateur '.$group->name.' ? <BR>
 			
 		$groupM->delete($id);
 		// TODO confirmation
-		echo 'good!';
-		
-		echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_groups&a=list\');</script>';
+		echo 'Le groupe vient d\'être supprimé!';
+        
+        echo '<script type="text/javascript">dataTable.ajax.reload();</script>';
     break;
     case 'group_user_map':
     	if(isset($_GET['id'])){$id=$_GET['id'];}elseif(isset($_POST['id'])){$id=$_POST['id'];}else{
     		// TODO ERROR
     	}
     	
-    	echo '<a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map_create_form&id='.$id.'\');"><span class="iconfa-plus-square"> Ajouter</span></a><BR>';
+    	echo '<a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map_create_form&id='.$id.'\');"><span class="iconastic-plus-square"> Ajouter</span></a><BR>';
     	
 		$q0=get_link()->prepare("
 SELECT 	m.user_id AS USERID,
@@ -111,7 +133,7 @@ ORDER BY u.name ASC"); //deleted_date=0 ORDER BY name
 		{
 			list($avatarWidth,$avatarHeight) = getNewSizePicture($r0->AVATAR,"48","48");
     		echo '
-			<img src="'.$r0->AVATAR.'" width="'.$avatarWidth.'" height="'.$avatarHeight.'"> '.$r0->NAME.' <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map_delete&id='.$r0->GROUPID.'&userId='.$r0->USERID.'\');"><span class="iconfa-trash-bin"></span></a><BR>
+			<img src="'.$r0->AVATAR.'" width="'.$avatarWidth.'" height="'.$avatarHeight.'"> '.$r0->NAME.' <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map_delete&id='.$r0->GROUPID.'&userId='.$r0->USERID.'\');"><span class="iconastic-trash-bin"></span></a><BR>
     		';
 		}
 		$q0->closeCursor();
@@ -126,6 +148,8 @@ ORDER BY u.name ASC"); //deleted_date=0 ORDER BY name
 		$groupM = new groupManager(); 
 			
 		$groupM->deleteGroupUserMap($id,$userId);
+		
+		echo 'Le membre vient d\'être supprimé!';
 		
 		echo '<script type="text/javascript">$( \'#popupContent\' ).load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map&id='.$id.'\');</script>';
     break;
@@ -146,8 +170,9 @@ ORDER BY u.name ASC");
 		$q0->execute(array());
 		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
 		{
+			list($avatarWidth,$avatarHeight) = getNewSizePicture($r0->AVATAR,"48","48");
     		echo '
-			<img src="'.$r0->AVATAR.'"> '.$r0->NAME.' <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map_create&id='.$id.'&userId='.$r0->ID.'\');"><span class="iconfa-plus-square"></span></a><BR>
+			<img src="'.$r0->AVATAR.'" width="'.$avatarWidth.'" height="'.$avatarHeight.'"> '.$r0->NAME.' <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map_create&id='.$id.'&userId='.$r0->ID.'\');"><span class="iconastic-plus-square"></span></a><BR>
     		';
 		}
 		$q0->closeCursor();
@@ -166,57 +191,67 @@ ORDER BY u.name ASC");
             $groupM->addGroupUserMap($id,$userId);
                 
             // TODO
-            echo 'good!';
+            echo 'Le membre vient d\'être ajouté!';
             
             echo '<script type="text/javascript">$( \'#popupContent\' ).load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map&id='.$id.'\');</script>';
         } else {
           	// TODO
-            echo 'Ce groupe existe déjà.';
+            echo 'Ce membre existe déjà.';
         }
     break;
     // Display the table content
-    case 'list':
-$q0=get_link()->prepare("SELECT id AS ID,name AS NAME FROM ".get_ini('BDD_PREFIX')."core_groups WHERE deleted_date=0 ORDER BY name ASC");
-$q0->execute();
-while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
-{
-    echo '
-<tr>
-    <td>'.$r0->ID.'</td>
-    <td>'.$r0->NAME.'</td>
-    <td>
-        <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map&id='.$r0->ID.'\');"><span class="iconfa-group"> Membres</span></a>
-        ';
-	if($r0->NAME != 'admins'){ // Admins group cannot be modified or deleted (use for plugins add)
-		echo '
-		<a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=update_form&id='.$r0->ID.'\');"><span class="iconfa-edit-write"> Modifier</span></a>
-        <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=delete_form&id='.$r0->ID.'\');"><span class="iconfa-minus-line"> Supprimer</span></a>
-		';
-	}
-	echo '
-    </td>
-</tr>
-	';
-}
-$q0->closeCursor();
+    case 'jsonList':
+    	$dataArray['data'] = array();
+		$q0=get_link()->prepare("SELECT id AS ID,name AS NAME FROM ".get_ini('BDD_PREFIX')."core_groups WHERE deleted_date=0 ORDER BY name ASC"); 
+		$q0->execute();
+		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
+		{
+			array_push(
+				$dataArray['data'],
+				array( 
+					"ID" => $r0->ID ,
+					"NAME" => $r0->NAME ,
+					"ACTION" => '<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=group_user_map&id='.$r0->ID.'\');"><span class="iconastic-group"> Membres </span></a> <a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=update_form&id='.$r0->ID.'\');"><span class="iconastic-edit-write"> Modifier </span></a> <a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Supprimer le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=delete_form&id='.$r0->ID.'\');"><span class="iconastic-minus-line"> Supprimer</span></a>'
+				)
+			);
+		}
+		$q0->closeCursor();
+
+		echo json_encode($dataArray);
     break;
     // Display Html table container
     default:
 		echo '
-<table class="pretty-table">
-<thead>
-<tr>
-    <th>Id</th>
-    <th>Name</th>
-    <th><a href="#" onClick="$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_groups&a=list\');"><span class="iconfa-refresh"> Rafraichir</a> <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=create_form\');"><span class="iconfa-plus-square"> Ajouter</span></a></th>
-</tr>
-</thead>
-<tbody id="tableList">
-<tr><td><img src="'.get_ini('LOADER').'"></td></tr>
-</tbody>
-</table>
+<div class="box">
+	<div class="box-header">
+		<h3 class="box-title">Liste des groupes</h3>
+		<a href="#popup" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Ajouter un groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=create_form\');"><span class="iconastic-plus-square"> Ajouter</span></a>
+	</div>
+	<div class="box-body">
+		<table id="dataTable" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nom</th>
+					<th><a href="#" onClick="dataTable.ajax.reload();"><span class="iconastic-refresh"> Rafraichir</a> </th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
 
-<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_groups&a=list\');</script>
+<script>
+var dataTable = 
+$(\'#dataTable\').DataTable( {
+    "ajax": "index.php?m=a&g=core&p=admin_groups&a=jsonList",
+    "columns": [
+        { "data": "ID" },
+        { "data": "NAME" },
+        { "data": "ACTION" }
+    ]
+} );
+dataTable.order( [ 2, \'asc\' ] ).draw();
+</script>
 		';
     break;
 }

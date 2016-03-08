@@ -1,4 +1,10 @@
 <?php
+// ------------------------------------------------------------------- //
+// Add this statements to all you page. Secure at top level.
+// ------------------------------------------------------------------- //
+if(!secFile(__FILE__,100)){return;}
+// ------------------------------------------------------------------- //
+
 switch ($a) {
     case 'update_form':
     	if(isset($_GET['id'])){$id=$_GET['id'];}elseif(isset($_POST['id'])){$id=$_POST['id'];}else{

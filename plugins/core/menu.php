@@ -25,6 +25,10 @@ $user = new user($_SESSION['USER_ID']);
       <ul class="sidebar-menu">
         <li class="header"><?php echo _('#2'); ?></li>
         <li class="active"><a href="index.php"><i class="fa iconastic-ios-home"></i> <span><?php echo _('#3'); ?></span></a></li>
+<?php
+if(secThis('core_plugins',getPluginId('core'),80))
+{
+?>
 <li class="treeview">
 	<a href="#">
 	<i class="icon iconastic-wrench-1"></i>
@@ -43,7 +47,7 @@ $user = new user($_SESSION['USER_ID']);
 </li>
 
 <?php
-
+}
 // Administration options
 // TODO
 //if(getAccess(get_object_id('core_plugins',getPluginId('core')))>=10) {}

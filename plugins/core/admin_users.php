@@ -2,8 +2,8 @@
 // ------------------------------------------------------------------- //
 // Add this statements to all you page. Adapt only the secLvl variable
 // ------------------------------------------------------------------- //
-$secLvl=100;
-if(getAccess(get_object_id('core_plugins',getPluginId($g)))<$secLvl && getAccess(get_object_id('core_pages',getPageId(getPluginId($g),$p)))<$secLvl){include('plugins/core/403.php');exit(403);}
+//$secLvl=100;
+//if(getAccess(get_object_id('core_plugins',getPluginId($g)))<$secLvl && getAccess(get_object_id('core_pages',getPageId(getPluginId($g),$p)))<$secLvl){include('plugins/core/403.php');exit(403);}
 // ------------------------------------------------------------------- //
 
 
@@ -11,23 +11,49 @@ if(getAccess(get_object_id('core_plugins',getPluginId($g)))<$secLvl && getAccess
 switch ($a) {
     case 'create_form':
         echo '
-Mail<BR>
-<input name="mail" type="text" value=""> <BR>
-Name<BR>
-<input name="name" type="text" value=""> <BR>
-Last name<BR>
-<input name="lastName" type="text" value=""> <BR>
-First name<BR>
-<input name="firstName" type="text" value=""> <BR>
-Avatar<BR>
-<input name="avatar" type="text" value="'.get_ini('DEFAULT_AVATAR').'"> <BR>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon">Email</span>
+		<input name="mail" type="text" class="form-control" value=""  placeholder="xxxxxx@xxxx.xxx">
+	</div>
+</p>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon">Pseudo</i></span>
+		<input name="name" type="text" class="form-control" value=""  placeholder="Pseudo">
+	</div>
+</p>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon">Nom</span>
+		<input name="lastName" type="text" class="form-control" value=""  placeholder="Nom">
+	</div>
+</p>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon">Prénom</span>
+		<input name="firstName" type="text" class="form-control" value=""  placeholder="Prénom">
+	</div>
+</p>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon">Avatar</span>
+		<input name="avatar" type="text" class="form-control" value="'.get_ini('DEFAULT_AVATAR').'"  placeholder="Lien vers l\'avatar">
+	</div>
+</p>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon">Envoi d\'un mail?</i></span>
+		<select name="isSendMail" class="form-control" data-role="slider">
+			<option value="FALSE">Off</option>
+			<option value="TRUE" selected>On</option>
+		</select>
+	</div>
+</p>
 
-<select name="isSendMail" data-role="slider">
-	<option value="FALSE">Off</option>
-	<option value="TRUE" selected>On</option>
-</select> <BR>
-
-<input name="submit" value="envoyer" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_users&a=create\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
+<button type="button" class="btn btn-primary" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_users&a=create\',$(\'form#popupForm\').serialize());">
+Ajouter
+</button>
 		';
     break;
     case 'create':
@@ -56,9 +82,9 @@ Avatar<BR>
             	$userM->register('LOCAL',$_POST['name'],'',$_POST['avatar'],$_POST['lastName'],$_POST['firstName'],strtolower($_POST['mail']),$_POST['isSendMail']);
                 
                 // TODO
-                echo 'good!';
-                
-                echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_users&a=list\');</script>';
+            	echo 'L\'utilisateur vient d\'être ajouté!';
+            
+            	echo '<script type="text/javascript">dataTable.ajax.reload();</script>';
             } else {
             	// TODO
                 echo 'Cet utilisateur ou cette adresse mail existe déjà dans notre base de données.';
@@ -73,14 +99,29 @@ Avatar<BR>
         $user = new user($id); 
                
         echo '
-Mail<BR>
-<input name="mail" type="text" value="'.$user->mail.'"> <BR>
-Nom<BR>
-<input name="name" type="text" value="'.$user->name.'"> <BR>
-Avatar<BR>
-<input name="avatar" type="text" value="'.$user->avatar.'"> <BR>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon">Email</span>
+		<input name="mail" type="text" class="form-control" value="'.$user->mail.'"  placeholder="xxxxxx@xxxx.xxx">
+	</div>
+</p>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon">Pseudo</i></span>
+		<input name="name" type="text" class="form-control" value="'.$user->name.'"  placeholder="Pseudo">
+	</div>
+</p>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon">Avatar</span>
+		<input name="avatar" type="text" class="form-control" value="'.$user->avatar.'"  placeholder="Lien vers l\'avatar">
+	</div>
+</p>
 <input name="id" type="hidden" value="'.$user->id.'"> 
-<input name="submit" value="Modifier" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_users&a=update\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
+
+<button type="button" class="btn btn-primary" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_users&a=update\',$(\'form#popupForm\').serialize());">
+Modifier
+</button>
 		';
     break;
     case 'update':
@@ -103,9 +144,9 @@ Avatar<BR>
                 $userM->update($id,$_POST['name'],$_POST['avatar'],$_POST['mail']);
                 
                 // TODO
-                echo 'good!';
-                
-                echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_users&a=list\');</script>';
+            	echo 'L\'utilisateur vient d\'être modifié!';
+            
+            	echo '<script type="text/javascript">dataTable.ajax.reload();</script>';
             } else {
             	// TODO
                 echo 'Cet utilisateur existe déjà.';
@@ -122,7 +163,10 @@ Avatar<BR>
         echo '
 Etes vous sûr de vouloir supprimer l\'utilisateur '.$user->name.' ? <BR>
 <input name="id" type="hidden" value="'.$id.'">
-<input name="submit" value="Supprimer" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_users&a=delete\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
+
+<button type="button" class="btn btn-primary" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_users&a=delete\',$(\'form#popupForm\').serialize());">
+Supprimer
+</button>
 		';
     break;
     case 'delete':
@@ -134,51 +178,72 @@ Etes vous sûr de vouloir supprimer l\'utilisateur '.$user->name.' ? <BR>
 			
 		$userM->delete($id);
 		// TODO confirmation
-		echo 'good!';
-		
-		echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_users&a=list\');</script>';
+        echo 'L\'utilisateur vient d\'être supprimé!';
+        
+        echo '<script type="text/javascript">dataTable.ajax.reload();</script>';
     break;
     // Display the table content
-    case 'list':
-$q0=get_link()->prepare("SELECT id AS ID,mail AS MAIL, name AS DISPLAYNAME, avatar AS AVATAR FROM ".get_ini('BDD_PREFIX')."core_users WHERE deleted_date=0 ORDER BY name ASC");
-$q0->execute();
-while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
-{
-	list($avatarWidth,$avatarHeight) = getNewSizePicture($r0->AVATAR,"48","48");
-    echo '
-<tr>
-    <td>'.$r0->ID.'</td>
-    <td>'.$r0->MAIL.'</td>
-    <td>'.$r0->DISPLAYNAME.'</td>
-    <td><img src="'.$r0->AVATAR.'" width="'.$avatarWidth.'" height="'.$avatarHeight.'" alt="avatar"></td>
-    <td>
-        <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_users&a=update_form&id='.$r0->ID.'\');"><span class="iconfa-edit-write"> Modifier</span></a>
-        <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_users&a=delete_form&id='.$r0->ID.'\');"><span class="iconfa-minus-line"> Supprimer</span></a>
-    </td>
-</tr>
-	';
-}
+    case 'jsonList':
+    	$dataArray['data'] = array();
+		$q0=get_link()->prepare("SELECT id AS ID,mail AS MAIL, name AS DISPLAYNAME, avatar AS AVATAR FROM ".get_ini('BDD_PREFIX')."core_users WHERE deleted_date=0 ORDER BY name ASC");
+		$q0->execute();
+		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
+		{
+			list($avatarWidth,$avatarHeight) = getNewSizePicture($r0->AVATAR,"48","48");
+			array_push(
+				$dataArray['data'],
+				array( 
+					"ID" => $r0->ID ,
+					"MAIL" => $r0->MAIL ,
+					"DISPLAYNAME" => $r0->DISPLAYNAME ,
+					"AVATAR" => '<img src="'.$r0->AVATAR.'" width="'.$avatarWidth.'" height="'.$avatarHeight.'">' ,
+					"ACTION" => '<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier un utilisateur\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_users&a=update_form&id='.$r0->ID.'\');"><span class="iconastic-edit-write"> Modifier </span></a> <a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Supprimer un utilisateur\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_users&a=delete_form&id='.$r0->ID.'\');"><span class="iconastic-minus-line"> Supprimer</span></a>'
+				)
+			);
+		}
 $q0->closeCursor();
-    break;
+
+echo json_encode($dataArray);
+
+    break;    
+
     // Display Html table container
     default:
 		echo '
-<table class="pretty-table">
-<thead>
-<tr>
-    <th>Id</th>
-    <th>Mail</th>
-    <th>Display name</th>
-    <th>Avatar</th>
-    <th><a href="#" onClick="$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_users&a=list\');"><span class="iconfa-refresh"> Rafraichir</a> <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_users&a=create_form\');"><span class="iconfa-plus-square"> Ajouter</span></a></th>
-</tr>
-</thead>
-<tbody id="tableList">
-<tr><td><img src="'.get_ini('LOADER').'"></td></tr>
-</tbody>
-</table>
+<div class="box">
+	<div class="box-header">
+		<h3 class="box-title">Liste des utilisateurs</h3>
+		<a href="#popup" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Ajouter un utilisateur\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_users&a=create_form\');"><span class="iconastic-plus-square"> Ajouter</span></a>
+	</div>
+	<div class="box-body">
+		<table id="dataTable" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Mail</th>
+					<th>Display name</th>
+					<th>Avatar</th>
+					<th><a href="#" onClick="dataTable.ajax.reload();"><span class="iconastic-refresh"> Rafraichir</a> </th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
 
-<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_users&a=list\');</script>
+<script>
+var dataTable = 
+$(\'#dataTable\').DataTable( {
+    "ajax": "index.php?m=a&g=core&p=admin_users&a=jsonList",
+    "columns": [
+        { "data": "ID" },
+        { "data": "MAIL" },
+        { "data": "DISPLAYNAME" },
+        { "data": "AVATAR" },
+        { "data": "ACTION" }
+    ]
+} );
+dataTable.order( [ 2, \'asc\' ] ).draw();
+</script>
 		';
     break;
 }

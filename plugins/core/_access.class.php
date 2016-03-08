@@ -5,9 +5,6 @@ class accessManager {
 	}
 	
 	function getLevel($targetObjectId) {
-		if($_SESSION['USER_ID'] == 0) {
-			return 100;
-		}
 		$user=new user($_SESSION['USER_ID']);
 		
 		$groupObjectIdList = "'".implode("','", $user->groupObjectIdArray)."'";
@@ -20,7 +17,7 @@ class accessManager {
 			return $r0->SECURELEVEL;
 		}
 		else {
-			return 0;
+			return -1;
 		}
 	}
 
