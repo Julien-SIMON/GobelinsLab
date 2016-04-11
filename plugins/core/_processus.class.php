@@ -1,7 +1,18 @@
 <?php
 class processusManager {
+	var $processManagerUserId;
+	
 	// Builder
-	function processusManager(){
+	function processusManager($userId=0){
+		if($userId==0)
+		{
+			$userM = new userManager(); 
+			$this->processManagerUserId = $userM->getIdByName('process');
+		}
+		else
+		{
+			$this->processManagerUserId = $userId;
+		}
 	}
 	
 	function getId($cmd) {
@@ -74,7 +85,7 @@ class processusManager {
 							'comments' => '' ,
 							'timeout' => time()+$timeout , 
 							'created_date' => time() , 
-							'created_id' => $_SESSION['USER_ID'] 
+							'created_id' => $this->processManagerUserId
 						));
 		
 		if(strtoupper(get_ini('BDD_TYPE'))!='ORACLE'){
@@ -91,7 +102,7 @@ class processusManager {
 		$q0->execute(array(	'id' => $id,
 							'status' => $status,
 							'percent' => $percent,
-							'edited_id' => $_SESSION['USER_ID'],
+							'edited_id' => $this->processManagerUserId,
 							'edited_date' => time()
 					));						
 	}
@@ -100,7 +111,7 @@ class processusManager {
 		if($id>0) {
 			$q0 = get_link()->prepare('UPDATE '.get_ini('BDD_PREFIX').'core_processus SET deleted_id=:deleted_id, deleted_date=:deleted_date WHERE id=:id');
 			$q0->execute(array(	'id' => $id,
-								'deleted_id' => $_SESSION['USER_ID'],
+								'deleted_id' => $this->processManagerUserId,
 								'deleted_date' => time()
 						));
 		}
@@ -160,7 +171,7 @@ class processus extends dbEntry {
 		else
 		{
 			// TODO add log management
-			echo 'The processus don\'t exist.';
+			echo 'The processus does not exist.';
 			exit(100);
 		}
 	}

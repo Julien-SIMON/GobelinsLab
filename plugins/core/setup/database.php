@@ -89,6 +89,7 @@ PRIMARY KEY (id)
 'CREATE TABLE IF NOT EXISTS <prefix>core_plugins (
 	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	name varchar(250) NOT NULL,
+	version varchar(10) NOT NULL,
 	activated INT NOT NULL,
 	created_date INT UNSIGNED DEFAULT NULL,
 	edited_date INT UNSIGNED DEFAULT NULL,

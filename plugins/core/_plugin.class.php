@@ -17,9 +17,10 @@ class pluginManager {
 		}
 	}
 
-	function create($name) {
-		$q0 = get_link()->prepare('INSERT INTO '.get_ini('BDD_PREFIX').'core_plugins (name,activated,created_id,created_date,edited_id,edited_date,deleted_id,deleted_date) VALUES (:name,0,:created_id,:created_date,0,0,0,0)');
+	function create($name,$version) {
+		$q0 = get_link()->prepare('INSERT INTO '.get_ini('BDD_PREFIX').'core_plugins (name,version,activated,created_id,created_date,edited_id,edited_date,deleted_id,deleted_date) VALUES (:name,:version,0,:created_id,:created_date,0,0,0,0)');
 		$q0->execute(array(	'name' => $name,
+							'version' => $version,
 							'created_id' => $_SESSION['USER_ID'],
 							'created_date' => time()
 					));
@@ -46,6 +47,7 @@ class pluginManager {
 
 class plugin extends dbEntry {	
 	var $name;
+	var $version;
 	var $activated;
 	
 	// Builder
@@ -56,6 +58,7 @@ class plugin extends dbEntry {
 		$q0=get_link()->prepare("SELECT 
 									p.id AS ID,
 									p.name AS NAME,
+									p.version AS VERSION,
 									p.activated AS ACTIVATED,
 									p.created_date AS CREATED_DATE,
 									p.created_id AS CREATED_ID,
@@ -70,6 +73,7 @@ class plugin extends dbEntry {
 		if(isset($r0->ID))
 		{
 			$this->name = $r0->NAME;
+			$this->version = $r0->VERSION;
 			$this->activated = $r0->ACTIVATED;
 			$this->createdDate = $r0->CREATED_DATE;
 			$this->createdID = $r0->CREATED_ID;

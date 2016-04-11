@@ -1,6 +1,6 @@
 <?php
 $userM = new userManager(); 
-if($_SESSION['USER_ID']>0&&$_SESSION['USER_ID']!=$userM->getIdByName('guest')){
+if($_SESSION['USER_ID']>0&&$_SESSION['USER_ID']!=$userM->getIdByName('#core#_#0#')){
 	switch ($a) {
 	    case 'logout':
 			unset($_SESSION);
@@ -18,14 +18,14 @@ if($_SESSION['USER_ID']>0&&$_SESSION['USER_ID']!=$userM->getIdByName('guest')){
 <li class="dropdown user user-menu">
 	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 		<i class="icon iconastic-ios-contact-outline"></i>
-		<span class="hidden-xs">'.$user->name.'</span>
+		<span class="hidden-xs">'._($user->name).'</span>
 	</a>
 	<ul class="dropdown-menu">
 		<li class="user-header">
 			<img src="'.$user->avatar.'" style="background-color: white;" alt="User Image">
 			
 			<p>
-			'.$user->name.' 
+			'._($user->name).' 
 			<small>Member since '.date('M Y',$user->createdDate).'</small>
 			</p>
 		</li>
@@ -288,40 +288,40 @@ Créer
 			';
 	    	if(get_ini('LOCAL_CONNEXION')=='true'){ // If local connexion is allowed
 	    		echo '
-<li class="user-body">
-<form id="loginForm">
-<p>
-<div class="input-group">
-	<span class="input-group-addon"><i class="icon iconastic-android-mail"></i></span>
-	<input name="login" type="email" class="form-control" placeholder="Email">
-</div>
-</p>
-<p>
-<div class="input-group">
-	<span class="input-group-addon"><i class="icon iconastic-lock-combination"></i></span>
-	<input name="pass" type="password" class="form-control" placeholder="Password">
-	<span class="input-group-btn">
-	<button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#popup" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=login&a=localConnexion\',$(\'form#loginForm\').serialize());">Go!</button>
-	</span>
-</div>
-</p>
-</form>
+		<li class="user-body">
+			<form id="loginForm">
+			<p>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon iconastic-android-mail"></i></span>
+					<input name="login" type="email" class="form-control" placeholder="Email">
+				</div>
+			</p>
+			<p>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon iconastic-lock-combination"></i></span>
+					<input name="pass" type="password" class="form-control" placeholder="Password">
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#popup" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=login&a=localConnexion\',$(\'form#loginForm\').serialize());">Go!</button>
+					</span>
+				</div>
+			</p>	
+			</form>
 
-<a href="#" data-toggle="modal" data-target="#popup" 
-onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Reset\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=login&a=resetPassword\');">
-<span class="icon iconastic-lightbulb" style="font-size: 0.7em;"> 
-Mot de passe oublié ? 
-</span>
-</a>
-</li>
-<li class="user-header" style="height: 3.3em;">
-<a href="#" data-toggle="modal" data-target="#popup"
-onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Register\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=login&a=localRegisterForm\');">
-<span class="icon iconastic-user" style="font-size: 1.1em;color: white;"> 
-Créer un compte 
-</span>
-</a>
-</li>
+			<a href="#" data-toggle="modal" data-target="#popup" 
+			onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Reset\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=login&a=resetPassword\');">
+			<span class="icon iconastic-lightbulb" style="font-size: 0.7em;"> 
+			Mot de passe oublié ? 
+			</span>
+			</a>
+		</li>
+		<li class="user-header" style="height: 3.3em;">
+			<a href="#" data-toggle="modal" data-target="#popup"
+			onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Register\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=login&a=localRegisterForm\');">
+			<span class="icon iconastic-user" style="font-size: 1.1em;color: white;"> 
+			Créer un compte 
+			</span>
+			</a>
+		</li>
 
       
       
@@ -329,42 +329,42 @@ Créer un compte
 
 				';
 	    	} elseif(get_ini('LDAP_CONNEXION')=='true') { // elseif ldap connexion is allowed
-echo '
-<li class="user-body">
-<form id="loginForm">
-<p>
-<div class="input-group">
-	<span class="input-group-addon"><i class="icon iconastic-user"></i></span>
-	<input name="login" type="text" class="form-control" value="'.get_ini('LDAP_DEFAULT_DOMAIN').'\">
-</div>
-</p>
-<p>
-<div class="input-group">
-	<span class="input-group-addon"><i class="icon iconastic-lock-combination"></i></span>
-	<input name="pass" type="password" class="form-control" placeholder="password">
-	<span class="input-group-btn">
-	<button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#popup" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=login&a=ldapConnexion\',$(\'form#loginForm\').serialize());">Go!</button>
-	</span>
-</div>
-</p>
-</form>
-
-<a href="#" data-toggle="modal" data-target="#popup" 
-onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=login&a=ldapResetPassword\');">
-<span class="icon iconastic-lightbulb" style="font-size: 0.7em;"> 
-Mot de passe oublié ? 
-</span>
-</a>
-</li>
-<li class="user-header" style="height: 3.3em;">
-<a href="#" data-toggle="modal" data-target="#popup"
-onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Ldap\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=login&a=ldapRegisterForm\');">
-<span class="icon iconastic-user" style="font-size: 1.1em;color: white;"> 
-Créer un compte 
-</span>
-</a>
-</li>
-';
+				echo '
+		<li class="user-body">
+			<form id="loginForm">
+			<p>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon iconastic-user"></i></span>
+					<input name="login" type="text" class="form-control" value="'.get_ini('LDAP_DEFAULT_DOMAIN').'\">
+				</div>
+			</p>
+			<p>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="icon iconastic-lock-combination"></i></span>
+					<input name="pass" type="password" class="form-control" placeholder="password">
+					<span class="input-group-btn">
+					<button type="button" class="btn btn-info btn-flat" data-toggle="modal" data-target="#popup" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=login&a=ldapConnexion\',$(\'form#loginForm\').serialize());">Go!</button>
+					</span>
+				</div>
+			</p>
+			</form>
+		
+			<a href="#" data-toggle="modal" data-target="#popup" 
+			onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=login&a=ldapResetPassword\');">
+			<span class="icon iconastic-lightbulb" style="font-size: 0.7em;"> 
+			Mot de passe oublié ? 
+			</span>
+			</a>
+		</li>
+		<li class="user-header" style="height: 3.3em;">
+			<a href="#" data-toggle="modal" data-target="#popup"
+			onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Ldap\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=login&a=ldapRegisterForm\');">
+			<span class="icon iconastic-user" style="font-size: 1.1em;color: white;"> 
+			Créer un compte 
+			</span>
+			</a>
+		</li>
+				';
 	    	}
 			
 			if((get_ini('LOCAL_CONNEXION')=='true'||get_ini('LDAP_CONNEXION')=='true')
@@ -372,7 +372,7 @@ Créer un compte
 				) {
 				echo '
 				<li class="user-body">
-					<div class="social-auth-links text-center">
+				<div class="social-auth-links text-center">
     			<p>- OR -</p>
     			';
 			}
@@ -397,7 +397,6 @@ Créer un compte
 				}
 			}
 		echo '
-		</li>
 	</ul>
 </li>
 		';

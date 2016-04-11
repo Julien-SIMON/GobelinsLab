@@ -244,9 +244,155 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
 		}
 		$q0->closeCursor();
     break;
+    case 'jsonList':
+    	if(isset($_GET['targetId'])){$targetId=$_GET['targetId'];}elseif(isset($_POST['targetId'])){$targetId=$_POST['targetId'];}else{
+    		// TODO ERROR
+    		exit();
+    	}
+    	
+    	$dataArray['data'] = array();
+    	
+    	// List groups and users with access
+		$q0=get_link()->prepare("SELECT 
+									o.id AS SOURCEID,
+									a.secure_level AS SECURELEVEL,
+									g.name AS NAME
+								FROM 
+									".get_ini('BDD_PREFIX')."core_groups g,
+									".get_ini('BDD_PREFIX')."core_access a,
+									".get_ini('BDD_PREFIX')."core_tables t,
+									".get_ini('BDD_PREFIX')."core_objects o
+								WHERE  
+									t.name='core_groups' AND
+									t.id = o.id_table AND
+									o.id_ext = g.id AND
+									a.id_target=:id_target AND
+									a.id_source=o.id AND
+									g.deleted_date=0 AND
+									a.deleted_date=0 AND
+									t.deleted_date=0 AND
+									o.deleted_date=0
+								ORDER BY 
+									g.name ASC");
+		$q0->execute(array( "id_target" => $targetId ));
+		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
+		{
+			array_push(
+				$dataArray['data'],
+				array( 
+					"NAME" => $r0->NAME ,
+					"ACCESS" => $r0->SECURELEVEL ,
+					"ACTION" => '' //<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=createForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');"><span class="iconastic-group"> Membres </span></a> <a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=update_form&id='.$r0->ID.'\');"><span class="iconastic-edit-write"> Modifier </span></a> <a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Supprimer le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=delete_form&id='.$r0->ID.'\');"><span class="iconastic-minus-line"> Supprimer</span></a>
+				)
+			);
+		}
+		$q0->closeCursor();
+		
+		$q0=get_link()->prepare("SELECT 
+									o.id AS SOURCEID,
+									a.secure_level AS SECURELEVEL,
+									u.name AS NAME
+								FROM 
+									".get_ini('BDD_PREFIX')."core_users u,
+									".get_ini('BDD_PREFIX')."core_access a,
+									".get_ini('BDD_PREFIX')."core_tables t,
+									".get_ini('BDD_PREFIX')."core_objects o
+								WHERE  
+									t.name='core_users' AND
+									t.id = o.id_table AND
+									o.id_ext = u.id AND
+									a.id_target=:id_target AND
+									a.id_source=o.id AND
+									u.deleted_date=0 AND
+									a.deleted_date=0 AND
+									t.deleted_date=0 AND
+									o.deleted_date=0
+								ORDER BY 
+									u.name ASC");
+		$q0->execute(array( "id_target" => $targetId ));
+		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
+		{
+			array_push(
+				$dataArray['data'],
+				array( 
+					"NAME" => $r0->NAME ,
+					"ACCESS" => $r0->SECURELEVEL ,
+					"ACTION" => ''
+				)
+			);
+		}
+		$q0->closeCursor();
+		
+		$q0=get_link()->prepare("SELECT 
+									o.id AS SOURCEID,
+									'0' AS SECURELEVEL,
+									g.name AS NAME
+								FROM 
+									".get_ini('BDD_PREFIX')."core_groups g,
+									".get_ini('BDD_PREFIX')."core_tables t,
+									".get_ini('BDD_PREFIX')."core_objects o
+								WHERE  
+									t.name='core_groups' AND
+									t.id = o.id_table AND
+									o.id_ext = g.id AND
+									o.id NOT IN (SELECT ID_SOURCE FROM ".get_ini('BDD_PREFIX')."core_access WHERE id_target=:id_target AND deleted_date=0) AND
+									g.deleted_date=0 AND
+									t.deleted_date=0 AND
+									o.deleted_date=0
+								ORDER BY 
+									g.name ASC");
+		$q0->execute(array( "id_target" => $targetId ));
+		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
+		{
+			array_push(
+				$dataArray['data'],
+				array( 
+					"NAME" => $r0->NAME ,
+					"ACCESS" => $r0->SECURELEVEL ,
+					"ACTION" => ''
+				)
+			);
+		}
+		$q0->closeCursor();
+		
+		$q0=get_link()->prepare("SELECT 
+									o.id AS SOURCEID,
+									'0' AS SECURELEVEL,
+									u.name AS NAME
+								FROM 
+									".get_ini('BDD_PREFIX')."core_users u,
+									".get_ini('BDD_PREFIX')."core_tables t,
+									".get_ini('BDD_PREFIX')."core_objects o
+								WHERE  
+									t.name='core_users' AND
+									t.id = o.id_table AND
+									o.id_ext = u.id AND
+									o.id NOT IN (SELECT ID_SOURCE FROM ".get_ini('BDD_PREFIX')."core_access WHERE id_target=:id_target AND deleted_date=0) AND
+									u.deleted_date=0 AND
+									t.deleted_date=0 AND
+									o.deleted_date=0
+								ORDER BY 
+									u.name ASC");
+		$q0->execute(array( "id_target" => $targetId ));
+		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
+		{
+			array_push(
+				$dataArray['data'],
+				array( 
+					"NAME" => $r0->NAME ,
+					"ACCESS" => $r0->SECURELEVEL ,
+					"ACTION" => ''
+				)
+			);
+		}
+		$q0->closeCursor();
+
+		echo json_encode($dataArray);
+    break;
     // Display Html table container and select input
     default:
     	echo '<select id="targetAccessSelectInput" name="targetId" onChange="$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_access&a=list&targetId=\' + $(this).val() );">';
+		$firstTargetId=0;
 		$q0=get_link()->prepare("SELECT 
 									o.id AS ID,
 									g.id AS PLUGINID,
@@ -276,7 +422,7 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
 		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
 		{
 		    echo '<option value="'.$r0->ID.'">Plugin : '.$r0->NAME.' ('.$r0->ACCESSSUM.')</option>';
-		    
+		    if($firstTargetId==0){$firstTargetId=$r0->ID;}
 			$q1=get_link()->prepare("SELECT 
 										o.id AS ID,
 										p.name AS NAME,
@@ -325,6 +471,37 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
 </table>
 
 <script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_access&a=list&targetId=\' + $(\'#targetAccessSelectInput\').val());</script>
+
+<div class="box">
+	<div class="box-header">
+		<h3 class="box-title">Liste des accès</h3>
+	</div>
+	<div class="box-body">
+		<table id="dataTable" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Objets</th>
+					<th></th>
+					<th><a href="#" onClick="dataTable.ajax.reload();"><span class="iconastic-refresh"> Rafraichir</a> </th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+<script>
+var dataTable = 
+$(\'#dataTable\').DataTable( {
+    "ajax": "index.php?m=a&g=core&p=admin_access&a=jsonList&targetId='.$firstTargetId.'",
+    "columns": [
+        { "data": "NAME" },
+        { "data": "ACCESS" },
+        { "data": "ACTION" }
+    ]
+} );
+dataTable.order( [ 1, \'asc\' ] ).draw();
+</script>
+
 		';
     break;
 }

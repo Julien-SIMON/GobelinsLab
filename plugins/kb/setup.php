@@ -7,6 +7,7 @@
 //if(!isset($user->groupIdArray)||!in_array($groupM->getId('admins'),$user->groupIdArray)){include('plugins/core/403.php');exit(403);}
 // ------------------------------------------------------------------- //
 
+$pluginVersion='0.0.1';
 
 if(is_file('plugins/'.$name.'/setup/database.php')){
 	include('plugins/'.$name.'/setup/database.php');

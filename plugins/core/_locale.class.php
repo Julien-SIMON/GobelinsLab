@@ -2,7 +2,7 @@
 class localeManager {
 	
 	// Builder
-	function localeManager($idPlugin=1){
+	function localeManager(){
 	}
 	
 	function getId($shortName) {

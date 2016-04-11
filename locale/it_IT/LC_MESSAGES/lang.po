@@ -1,64 +1,64 @@
 #: core / Visiteur
 msgid "#core#_#0#"
-msgstr "Visiteur"
+msgstr "visitatore"
 
 #: languages_selection / Choix de la langue
 msgid "#core#_#1#"
-msgstr "Choix de la langue"
+msgstr "Scelta della lingua"
 
 #: menu / MENU PRINCIPAL
 msgid "#core#_#2#"
-msgstr "MENU PRINCIPAL"
+msgstr "MENU PRINCIPALE"
 
 #: menu / Accueil
 msgid "#core#_#3#"
-msgstr "Accueil"
+msgstr "Startseite"
 
 #: menu / A propos
 msgid "#core#_#4#"
-msgstr "A propos"
+msgstr "Di"
 
 #: menu / Administration
 msgid "#core#_#5#"
-msgstr "Administration"
+msgstr "Amministrazione"
 
 #: menu / Utilisateurs
 msgid "#core#_#6#"
-msgstr "Utilisateurs"
+msgstr "TODO"
 
 #: menu / Groupes
 msgid "#core#_#7#"
-msgstr "Groupes"
+msgstr "TODO"
 
 #: menu / Paramètres
 msgid "#core#_#8#"
-msgstr "Paramètres"
+msgstr "TODO"
 
 #: menu / Plugins
 msgid "#core#_#9#"
-msgstr "Plugins"
+msgstr "TODO"
 
 #: menu / Securité
 msgid "#core#_#10#"
-msgstr "Securité"
+msgstr "TODO"
 
 #: menu / Traduction
 msgid "#core#_#11#"
-msgstr "Traduction"
+msgstr "TODO"
 
 #: index / Note: Cette page a été entièrement traduite avec un outil automatique
 msgid "#core#_#12#"
-msgstr "Note: Cette page a été entièrement traduite avec un outil automatique"
+msgstr "TODO"
 
 #: index / Note: Cette page a été partiellement traduite avec un outil automatique
 msgid "#core#_#13#"
-msgstr "Note: Cette page a été partiellement traduite avec un outil automatique"
+msgstr "TODO"
 
 #: processus / Voir tous les processus
 msgid "#core#_#14#"
-msgstr "Voir tous les processus"
+msgstr "TODO"
 
 #: processus / Vous n'avez aucun processus en cours
 msgid "#core#_#15#"
-msgstr "Vous n'avez aucun processus en cours"
+msgstr "TODO"
 

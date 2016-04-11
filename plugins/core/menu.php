@@ -1,4 +1,5 @@
 <?php
+echo $_SESSION['USER_ID'];
 $user = new user($_SESSION['USER_ID']);
 ?>
       <div class="user-panel">
@@ -6,7 +7,7 @@ $user = new user($_SESSION['USER_ID']);
           <img src="<?php echo $user->avatar; ?>" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p><?php echo $user->name; ?></p>
+          <p><?php echo _($user->name); ?></p>
           <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
         </div>
       </div>
@@ -23,8 +24,8 @@ $user = new user($_SESSION['USER_ID']);
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
-        <li class="header"><?php echo _('#2'); ?></li>
-        <li class="active"><a href="index.php"><i class="fa iconastic-ios-home"></i> <span><?php echo _('#3'); ?></span></a></li>
+        <li class="header"><?php echo _('#core#_#2#'); ?></li>
+        <li class="active"><a href="index.php"><i class="fa iconastic-ios-home"></i> <span><?php echo _('#core#_#3#'); ?></span></a></li>
 <?php
 if(secThis('core_plugins',getPluginId('core'),80))
 {
@@ -32,17 +33,17 @@ if(secThis('core_plugins',getPluginId('core'),80))
 <li class="treeview">
 	<a href="#">
 	<i class="icon iconastic-wrench-1"></i>
-	<span><?php echo _('#5'); ?></span>
+	<span><?php echo _('#core#_#5#'); ?></span>
 	<i class="icon iconastic-angle-left pull-right"></i>
 	<!-- <span class="label label-primary pull-right">4</span> -->
 	</a>
 	<ul class="treeview-menu">
-		<li><a href="index.php?g=core&p=admin_users"><i class="icon iconastic-user"></i> Utilisateurs</a></li>
-		<li><a href="index.php?g=core&p=admin_groups"><i class="icon iconastic-group"></i> Groupes</a></li>
-		<li><a href="index.php?g=core&p=admin_parameters"><i class="icon iconastic-science-laboratory"></i> Paramètres</a></li>
-		<li><a href="index.php?g=core&p=admin_plugins"><i class="icon iconastic-puzzle"></i> Plugins</a></li>
-		<li><a href="index.php?g=core&p=admin_access"><i class="icon iconastic-unlock"></i> Securité</a></li>
-		<li><a href="index.php?g=core&p=admin_translation"><i class="icon iconastic-earth"></i> Traduction</a></li>
+		<li><a href="index.php?g=core&p=admin_users"><i class="icon iconastic-user"></i> <?php echo _('#core#_#6#'); ?></a></li>
+		<li><a href="index.php?g=core&p=admin_groups"><i class="icon iconastic-group"></i> <?php echo _('#core#_#7#'); ?></a></li>
+		<li><a href="index.php?g=core&p=admin_parameters"><i class="icon iconastic-science-laboratory"></i> <?php echo _('#core#_#8#'); ?></a></li>
+		<li><a href="index.php?g=core&p=admin_plugins"><i class="icon iconastic-puzzle"></i> <?php echo _('#core#_#9#'); ?></a></li>
+		<li><a href="index.php?g=core&p=admin_access"><i class="icon iconastic-unlock"></i> <?php echo _('#core#_#10#'); ?></a></li>
+		<li><a href="index.php?g=core&p=admin_translation"><i class="icon iconastic-earth"></i> <?php echo _('#core#_#11#'); ?></a></li>
 	</ul>
 </li>
 
@@ -64,7 +65,7 @@ foreach($init->pluginsIndex as $plugin) {
 
 ?>
 
-<li><a href="index.php?g=core&p=about"><i class="icon iconastic-question-1"></i> <span><?php echo _('#4'); ?></span></a></li>
+<li><a href="index.php?g=core&p=about"><i class="icon iconastic-question-1"></i> <span><?php echo _('#core#_#4#'); ?></span></a></li>
 
 <!--
         <li class="active treeview">

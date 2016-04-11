@@ -132,16 +132,16 @@ class initialisation {
 		$userAccessArray = array();
 		
 		// Load local
-		if(!isset($_SESSION["lang"])) {
-			if(get_ini('DEFAULT_LANGUAGE')!=''){$_SESSION["lang"]=get_ini('DEFAULT_LANGUAGE');} else {$_SESSION["lang"]='en_US';}
+		if(!isset($_SESSION['LANG'])) {
+			if(get_ini('DEFAULT_LANGUAGE')!=''){$_SESSION['LANG']=get_ini('DEFAULT_LANGUAGE');} else {$_SESSION['LANG']='en_US';}
 		}
-  		if (isset($_GET["lang"])) {
-		  $lang = $_GET["lang"];
-		  $_SESSION["lang"] = $lang;
+  		if (isset($_GET['lang'])) {
+		  $lang = $_GET['lang'];
+		  $_SESSION['LANG'] = $lang;
 		  self::$ini['DEFAULT_LANGUAGE']=$lang;
   		}
-  		elseif (isset($_SESSION["lang"])) {
-		  $lang  = $_SESSION["lang"];
+  		elseif (isset($_SESSION['LANG'])) {
+		  $lang  = $_SESSION['LANG'];
   		}
   		else {
 		  $lang = "en_US";
@@ -159,6 +159,12 @@ class initialisation {
   		//bindtextdomain($domain2, "Locale"); 
   		//bind_textdomain_codeset($domain2, 'UTF-8');
   		//$user = "Curious gettext tester";
+	}
+	
+	function userEnv() {
+		$user = new user($_SESSION['USER_ID']); 
+		$_SESSION['USER_NAME']=$user->name;
+		$_SESSION['USER_AVATAR']=$user->avatar;
 	}
     
 	public static function getIni($param) {
@@ -268,7 +274,7 @@ class initialisation {
 		
 		$page = substr($filePath,strrpos($filePath,'/')+1,strlen($filePath)-strrpos($filePath,'/')-5);
 		$plug = substr($filePath,strrpos($filePath,'/',-(strlen($page)+6))+1,strrpos($filePath,'/')-strrpos($filePath,'/',-(strlen($page)+6))-1);
-		
+
 		if(self::secThis('core_plugins',self::getPluginId($plug),$accessLevel) || secThis('core_pages',self::getTableId($page),$accessLevel))
 		{
 			return true;
@@ -282,6 +288,10 @@ class initialisation {
 }
 
 function get_ini($param) {
+	return initialisation::getIni($param);
+}
+
+function getIni($param) {
 	return initialisation::getIni($param);
 }
 

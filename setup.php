@@ -7,11 +7,11 @@ ini_set('session.gc_maxlifetime', 86400);
 date_default_timezone_set("Europe/Paris");
 
 session_start();
-$_SESSION['USER_ID']=-1;
+$_SESSION['USER_ID']=0;
 
 require_once('plugins/core/__functions.php');
 
-$version=0.002;
+$version='0.0.3';
 
 
 
@@ -136,16 +136,214 @@ You cannot generate another config file. One are already present. Please go at t
 	// Finalize 
 	case 100:
 		echo '
-<h3>Step 5/5 - Installation completed</h3>
+<h3>Step 6/6 - Installation completed</h3>
 	    ';
 	    
 		file_put_contents('conf/version',$version);
 		
 		echo 'Please note these informations:<BR>Login: <B>admin</B><BR>Password: <B>gob</B><BR><BR><a href="index.php"><span class="icon iconfa-stackoverflow"> Installation complete</a>';
 	break;
+	case 23:
+		echo '
+<h3>Step 5/6 - Fill the auxiliary tables</h3>
+	    ';
+		
+		// Add default table
+		echo ' - Fill translation table<BR>';
+		$transM = new translationManager();
+		$pluginM = new pluginManager();
+		$locM = new localeManager();
+		
+		$pgId=$pluginM->getId('core');
+		$langArray=array(
+			'fr_FR'=>$locM->getId('fr_FR'),
+			'en_US'=>$locM->getId('en_US'),
+			'de_DE'=>$locM->getId('de_DE'),
+			'it_IT'=>$locM->getId('it_IT')
+		);
+		
+		
+		$index = 0;
+		$comment = 'core / Visiteur';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Visiteur',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Guest',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'Besucher',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'visitatore',$comment);
+		
+		$index = 1;
+		$comment = 'languages_selection / Choix de la langue';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Choix de la langue',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Language selection',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'Sprache der Wahl',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'Scelta della lingua',$comment);
+		
+		$index = 2;
+		$comment = 'menu / MENU PRINCIPAL';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'MENU PRINCIPAL',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'MAIN MENU',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'HAUPTMENU',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'MENU PRINCIPALE',$comment);
+		
+		$index = 3;
+		$comment = 'menu / Accueil';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Accueil',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Home',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'Home',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'Startseite',$comment);
+		
+		$index = 4;
+		$comment = 'menu / A propos';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'A propos',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'About',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'Etwa',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'Di',$comment);
+		
+		$index = 5;
+		$comment = 'menu / Administration';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Administration',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Administration',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'Verwaltung',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'Amministrazione',$comment);
+		
+		$index = 6;
+		$comment = 'menu / Utilisateurs';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Utilisateurs',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Users',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+		
+		$index = 7;
+		$comment = 'menu / Groupes';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Groupes',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Groups',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+		
+		$index = 8;
+		$comment = 'menu / Paramètres';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Paramètres',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Parameters',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+		
+		$index = 9;
+		$comment = 'menu / Plugins';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Plugins',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Plugins',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+		
+		$index = 10;
+		$comment = 'menu / Securité';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Securité',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Security',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+		
+		$index = 11;
+		$comment = 'menu / Traduction';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Traduction',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Translation',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+			
+		$index = 12;
+		$comment = 'index / Note: Cette page a été entièrement traduite avec un outil automatique';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Note: Cette page a été entièrement traduite avec un outil automatique',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Note: This webpage was completly translate with an automatic tool',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+			
+		$index = 13;
+		$comment = 'index / Note: Cette page a été partiellement traduite avec un outil automatique';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Note: Cette page a été partiellement traduite avec un outil automatique',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Note: This webpage was partially translate with an automatic tool',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+			
+		$index = 14;
+		$comment = 'processus / Voir tous les processus';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Voir tous les processus',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Display all processus',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+			
+		$index = 15;
+		$comment = 'processus / Vous n\'avez aucun processus en cours';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Vous n\'avez aucun processus en cours',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'There is no running process',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+
+		echo '<BR><BR><a href="setup.php?s=100"><span class="icon iconfa-stackoverflow"> Finalize setup operation</a>';
+	break;
 	case 22:
 		echo '
-<h3>Step 4/5 - Fill the tables</h3>
+<h3>Step 4/6 - Fill the primary tables</h3>
 	    ';
 
 
@@ -171,7 +369,7 @@ You cannot generate another config file. One are already present. Please go at t
 		echo ' - Fill plugin table<BR>';
 		$pluginM = new pluginManager();
 		if($pluginM->getId('core')==0)					{
-			$pluginM->create('core');
+			$pluginM->create('core',$version);
 			$plugin = new plugin($pluginM->getId('core'));
 			$plugin->updateActivated(1);
 		}
@@ -205,7 +403,7 @@ You cannot generate another config file. One are already present. Please go at t
 		echo ' - Fill users table<BR>';
 		$userM = new userManager();
 		if($userM->getIdByName('admin')==0)				{$userM->create('admin', 'lib/avatars/brain.jpg', '');}
-		if($userM->getIdByName('guest')==0)				{$userM->create('guest', 'lib/avatars/brain.jpg', '');}
+		if($userM->getIdByName('#core#_#0#')==0)		{$userM->create('#core#_#0#', 'lib/avatars/brain.jpg', '');} // Guest user
 		if($userM->getIdByName('process')==0)			{$userM->create('process', 'lib/avatars/brain.jpg', '');}
 		
 		// Add default user group mapping
@@ -214,7 +412,7 @@ You cannot generate another config file. One are already present. Please go at t
 		$userM = new userManager();
 		if($groupM->getGroupUserMap($groupM->getId('admins'),$userM->getIdByName('admin'))==0){$groupM->addGroupUserMap($groupM->getId('admins'),$userM->getIdByName('admin'));}
 		if($groupM->getGroupUserMap($groupM->getId('admins'),$userM->getIdByName('process'))==0){$groupM->addGroupUserMap($groupM->getId('admins'),$userM->getIdByName('process'));}
-		if($groupM->getGroupUserMap($groupM->getId('guests'),$userM->getIdByName('guest'))==0){$groupM->addGroupUserMap($groupM->getId('guests'),$userM->getIdByName('guest'));}
+		if($groupM->getGroupUserMap($groupM->getId('guests'),$userM->getIdByName('#core#_#0#'))==0){$groupM->addGroupUserMap($groupM->getId('guests'),$userM->getIdByName('#core#_#0#'));}
 		
 		// Add default auth 
 		echo ' - Fill auths table<BR>';
@@ -285,16 +483,21 @@ You cannot generate another config file. One are already present. Please go at t
 		
 		if($parameterM->getId(getPluginId('core'),'DEFAULT_AVATAR')==0)		{$parameterM->create(getPluginId('core'),'DEFAULT_AVATAR','lib/avatars/brain.jpg','lib/avatars/brain.jpg');}
 
-		if($parameterM->getId(getPluginId('core'),'DEFAULT_HOME_PAGE')==0)		{$parameterM->create(getPluginId('core'),'DEFAULT_HOME_PAGE','all','all');}
+		if($parameterM->getId(getPluginId('core'),'DEFAULT_HOME_PAGE')==0)	{$parameterM->create(getPluginId('core'),'DEFAULT_HOME_PAGE','all','all');}
 
 		if($parameterM->getId(getPluginId('core'),'VERSION')==0)			{$parameterM->create(getPluginId('core'),'VERSION',$version,'');}
 
-		echo '<BR><BR><a href="setup.php?s=100"><span class="icon iconfa-stackoverflow"> Finalize setup operation</a>';
+		if($parameterM->getId(getPluginId('core'),'LANG_fr_FR')==0)			{$parameterM->create(getPluginId('core'),'LANG_fr_FR','TOTAL','NONE');}
+		if($parameterM->getId(getPluginId('core'),'LANG_en_US')==0)			{$parameterM->create(getPluginId('core'),'LANG_en_US','PARTIAL','NONE');}
+		if($parameterM->getId(getPluginId('core'),'LANG_de_DE')==0)			{$parameterM->create(getPluginId('core'),'LANG_de_DE','NONE','NONE');}
+		if($parameterM->getId(getPluginId('core'),'LANG_it_IT')==0)			{$parameterM->create(getPluginId('core'),'LANG_it_IT','NONE','NONE');}
+
+		echo '<BR><BR><a href="setup.php?s=23"><span class="icon iconfa-stackoverflow"> Fill the auxiliary tables</a>';
 		
 	break;
 	case 20:
 		echo '
-<h3>Step 3/5 - Fill the database</h3>
+<h3>Step 3/6 - Fill the database</h3>
 	    ';
 	    
 		if(is_file('plugins/core/setup/database.php')){
@@ -314,7 +517,7 @@ You cannot generate another config file. One are already present. Please go at t
 	case 10:
 		echo '
 <form action="setup.php?s=12" method="post">
-<h3>Step 2/5 - Databases</h3>
+<h3>Step 2/6 - Databases</h3>
 
 Type * <BR>
 <select name="db_type"><option value="oracle">Oracle</option><option value="mysql">MySql</option></select><BR>
@@ -425,7 +628,7 @@ HASH_METHOD="sha512"
 	// Default case
     default:
 		echo '
-<h3>Step 1/5</h3>
+<h3>Step 1/6</h3>
 
 Please follow instructions to complete the setup process. You can resume it at all moment within the last step.<BR><BR>
 

@@ -1,19 +1,64 @@
-#: Choix de la langue
-msgid "#1"
+#: core / Visiteur
+msgid "#core#_#0#"
+msgstr "Guest"
+
+#: languages_selection / Choix de la langue
+msgid "#core#_#1#"
 msgstr "Language selection"
 
-#: MENU PRINCIPAL
-msgid "#2"
-msgstr "MAIN NAVIGATION"
+#: menu / MENU PRINCIPAL
+msgid "#core#_#2#"
+msgstr "MAIN MENU"
 
-#: Accueil
-msgid "#3"
+#: menu / Accueil
+msgid "#core#_#3#"
 msgstr "Home"
 
-#: A propos
-msgid "#4"
+#: menu / A propos
+msgid "#core#_#4#"
 msgstr "About"
 
-#: Administration
-msgid "#5"
+#: menu / Administration
+msgid "#core#_#5#"
 msgstr "Administration"
+
+#: menu / Utilisateurs
+msgid "#core#_#6#"
+msgstr "Users"
+
+#: menu / Groupes
+msgid "#core#_#7#"
+msgstr "Groups"
+
+#: menu / Paramètres
+msgid "#core#_#8#"
+msgstr "Parameters"
+
+#: menu / Plugins
+msgid "#core#_#9#"
+msgstr "Plugins"
+
+#: menu / Securité
+msgid "#core#_#10#"
+msgstr "Security"
+
+#: menu / Traduction
+msgid "#core#_#11#"
+msgstr "Translation"
+
+#: index / Note: Cette page a été entièrement traduite avec un outil automatique
+msgid "#core#_#12#"
+msgstr "Note: This webpage was completly translate with an automatic tool"
+
+#: index / Note: Cette page a été partiellement traduite avec un outil automatique
+msgid "#core#_#13#"
+msgstr "Note: This webpage was partially translate with an automatic tool"
+
+#: processus / Voir tous les processus
+msgid "#core#_#14#"
+msgstr "Display all processus"
+
+#: processus / Vous n'avez aucun processus en cours
+msgid "#core#_#15#"
+msgstr "There is no running process"
+

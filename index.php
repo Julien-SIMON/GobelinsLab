@@ -23,7 +23,7 @@ $rijn = new rijn();
 if(!isset($_SESSION['USER_ID']))
 {
 	$userM = new userManager(); 
-	$_SESSION['USER_ID']=$userM->getIdByName('guest');
+	$_SESSION['USER_ID']=$userM->getIdByName('#core#_#0#');
 }
 
 // On ajoute les fichiers de connexion externe (Facebook, Google, ...)
@@ -70,6 +70,9 @@ if(isset($_SESSION['auth_info_method'])&&isset($_SESSION['auth_info_login'])&&$_
     unset($_SESSION['auth_infos']);
 }
 
+// If user env is not already defined
+$user = new user($_SESSION['USER_ID']); 
+$_SESSION['USER_NAME']=$user->name;
 
 
 // On définit les variables php
@@ -225,15 +228,15 @@ echo '@media (max-width: 60em) {#mainLogo {height: '.$logoHeight.'px;width: '.$l
 				
 
 					<!-- processus -->
-<?php include_once('plugins/core/messages.php'); ?>
+<?php if($_SESSION['USER_NAME']!='#core#_#0#'){include_once('plugins/core/messages.php');} ?>
 					<!-- end processus -->   
 
 					<!-- events -->
-<?php include_once('plugins/core/events.php'); ?>
+<?php if($_SESSION['USER_NAME']!='#core#_#0#'){include_once('plugins/core/events.php');} ?>
 					<!-- end events -->  
 
 					<!-- processus -->
-<?php include_once('plugins/core/processus.php'); ?>
+<?php if($_SESSION['USER_NAME']!='#core#_#0#'){include_once('plugins/core/processus.php');} ?>
 					<!-- end processus -->   
     
 					<!-- language selection -->
@@ -282,7 +285,13 @@ echo '@media (max-width: 60em) {#mainLogo {height: '.$logoHeight.'px;width: '.$l
 
 		<!-- Main content -->
 		<section class="content">
-    
+			<?php 
+			if(get_ini('LANG_'.$_SESSION['LANG'])!='TOTAL'){
+				echo '<div class="alert alert-warning" role="alert">';
+				if(get_ini('LANG_'.$_SESSION['LANG'])=='PARTIAL'){echo _('#core#_#13#');}else{echo _('#core#_#12#');}
+				echo '</div>';
+			}
+    		?>
 <?php
 if($g==''||$p=='')
 {

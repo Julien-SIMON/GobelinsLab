@@ -75,6 +75,9 @@ Ajouter
         } elseif(!isset($_POST['isSendMail'])) {
         	// Todo error
         	echo 'erreur isSendMail';
+        } elseif(preg_match('/^#.*#_#.*#$/',$_POST['name'])) {
+        	// Todo error
+        	echo 'erreur name match with translate pattern';
         } else {
             $userM = new userManager(); 
            
@@ -201,10 +204,9 @@ Supprimer
 				)
 			);
 		}
-$q0->closeCursor();
+		$q0->closeCursor();
 
-echo json_encode($dataArray);
-
+		echo json_encode($dataArray);
     break;    
 
     // Display Html table container

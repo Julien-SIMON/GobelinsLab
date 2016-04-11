@@ -252,9 +252,21 @@ class user extends dbEntry {
 		}
 		else
 		{
-			// TODO add log management
-			echo 'The user don\'t exist.';
-			exit(100);
+			if($_SESSION['USER_ID'] == $id)
+			{
+				unset($_SESSION);
+				session_destroy();	
+				
+				// TODO add log management
+				echo 'There is something wrong with your account. Try to refresh the page then contact your administator.';
+				exit(100);
+			}
+			else
+			{
+				// TODO add log management
+				echo 'The user does not exist.';
+				exit(100);
+			}
 		}
 		$q0->closeCursor();
 	}

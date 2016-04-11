@@ -3,7 +3,7 @@
 	<i class="icon iconastic-globe-world"></i>
 	</a>
 	<ul class="dropdown-menu">
-		<li class="header"><?php echo _('#1'); ?></li>
+		<li class="header"><?php echo _('#core#_#1#'); ?></li>
 <?php
 $q0=get_link()->prepare("SELECT 
 							loc.id AS ID,
