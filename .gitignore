@@ -1,3 +1,4 @@
 /conf/config.ini
 /conf/config_dev.ini
 /conf/config_prod.ini
+/conf/version
