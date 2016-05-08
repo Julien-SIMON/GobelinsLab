@@ -40,9 +40,12 @@ if(secThis('core_plugins',getPluginId('core'),80))
 	<ul class="treeview-menu">
 		<li><a href="index.php?g=core&p=admin_users"><i class="icon iconastic-user"></i> <?php echo _('#core#_#6#'); ?></a></li>
 		<li><a href="index.php?g=core&p=admin_groups"><i class="icon iconastic-group"></i> <?php echo _('#core#_#7#'); ?></a></li>
+		<li><a href="index.php?g=core&p=admin_jobs"><i class="icon iconastic-android-alarm-clock"></i> <?php echo _('#core#_#16#'); ?></a></li>
 		<li><a href="index.php?g=core&p=admin_parameters"><i class="icon iconastic-science-laboratory"></i> <?php echo _('#core#_#8#'); ?></a></li>
+		<li><a href="index.php?g=core&p=admin_phpinfo&m=a" target="_blank"><i class="icon iconastic-android-list"></i> <?php echo 'Phpinfo'; ?></a></li>
 		<li><a href="index.php?g=core&p=admin_plugins"><i class="icon iconastic-puzzle"></i> <?php echo _('#core#_#9#'); ?></a></li>
 		<li><a href="index.php?g=core&p=admin_access"><i class="icon iconastic-unlock"></i> <?php echo _('#core#_#10#'); ?></a></li>
+		<li><a href="index.php?g=core&p=admin_statistics"><i class="icon iconastic-arrow-graph-up-right"></i> <?php echo _('#core#_#17#'); ?></a></li>
 		<li><a href="index.php?g=core&p=admin_translation"><i class="icon iconastic-earth"></i> <?php echo _('#core#_#11#'); ?></a></li>
 	</ul>
 </li>

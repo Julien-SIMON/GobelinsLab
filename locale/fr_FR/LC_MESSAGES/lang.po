@@ -62,3 +62,39 @@ msgstr "Voir tous les processus"
 msgid "#core#_#15#"
 msgstr "Vous n'avez aucun processus en cours"
 
+#: menu / Planificateur
+msgid "#core#_#16#"
+msgstr "Planificateur"
+
+#: menu / Statistiques
+msgid "#core#_#17#"
+msgstr "Statistiques"
+
+#: task / lancement du job
+msgid "#core#_#18#"
+msgstr "lancement du job"
+
+#: task / Le fichier XML est invalide ou le fichier du processus n'existe pas.
+msgid "#core#_#19#"
+msgstr "Le fichier XML est invalide ou le fichier du processus n'existe pas."
+
+#: task / fin du job
+msgid "#core#_#20#"
+msgstr "fin du job"
+
+#: task / le job
+msgid "#core#_#21#"
+msgstr "le job"
+
+#: task / existe déjà
+msgid "#core#_#22#"
+msgstr "existe déjà"
+
+#: admin_jobs / Afin d'ajouter un nouveau job, assurez vous de nommer vos fichiers comme suit: .../plugins/.../task_..._loader.php
+msgid "#core#_#23#"
+msgstr "Afin d'ajouter un nouveau job, assurez vous de nommer vos fichiers comme suit: .../plugins/.../task_..._loader.php"
+
+#: admin_jobs / Etes vous sûr de vouloir supprimer ce travail
+msgid "#core#_#24#"
+msgstr "Etes vous sûr de vouloir supprimer ce travail"
+

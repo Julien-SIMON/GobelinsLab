@@ -338,7 +338,108 @@ You cannot generate another config file. One are already present. Please go at t
 			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
 		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
 			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+			
+		$index = 16;
+		$comment = 'menu / Planificateur';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Planificateur',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Scheduler',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
 
+		$index = 17;
+		$comment = 'menu / Statistiques';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Statistiques',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Statistics',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+
+		$index = 18;
+		$comment = 'task / lancement du job';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'lancement du job',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'load the job',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+
+		$index = 19;
+		$comment = 'task / Le fichier XML est invalide ou le fichier du processus n\'existe pas.';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Le fichier XML est invalide ou le fichier du processus n\'existe pas.',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'XML file is not valid or process file does not exist.',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+
+		$index = 20;
+		$comment = 'task / fin du job';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'fin du job',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'end of the job',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+
+		$index = 21;
+		$comment = 'task / le job';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'le job',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'the job',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+
+		$index = 22;
+		$comment = 'task / existe déjà';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'existe déjà',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'already exist',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+
+		$index = 23;
+		$comment = 'admin_jobs / Afin d\'ajouter un nouveau job, assurez vous de nommer vos fichiers comme suit: .../plugins/.../task_..._loader.php';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Afin d\'ajouter un nouveau job, assurez vous de nommer vos fichiers comme suit: .../plugins/.../task_..._loader.php',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'To add a new job, the script file need to be as following: .../plugins/.../task_..._loader.php',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+
+		$index = 24;
+		$comment = 'admin_jobs / Etes vous sûr de vouloir supprimer ce travail';
+		if($transM->getId($pgId,$langArray['fr_FR'],$index)==0)
+			$transM->create($pgId,$langArray['fr_FR'],$index,'Etes vous sûr de vouloir supprimer ce travail',$comment);		
+		if($transM->getId($pgId,$langArray['en_US'],$index)==0)
+			$transM->create($pgId,$langArray['en_US'],$index,'Do you want to delete this job ',$comment);		
+		if($transM->getId($pgId,$langArray['de_DE'],$index)==0)
+			$transM->create($pgId,$langArray['de_DE'],$index,'TODO',$comment);		
+		if($transM->getId($pgId,$langArray['it_IT'],$index)==0)
+			$transM->create($pgId,$langArray['it_IT'],$index,'TODO',$comment);
+			
+			
+		
 		echo '<BR><BR><a href="setup.php?s=100"><span class="icon iconfa-stackoverflow"> Finalize setup operation</a>';
 	break;
 	case 22:
@@ -362,6 +463,7 @@ You cannot generate another config file. One are already present. Please go at t
 		if($tableM->getId('core_processus')==0)			{$tableM->create('core_processus');}
 		if($tableM->getId('core_parameters')==0)		{$tableM->create('core_parameters');}
 		if($tableM->getId('core_pages')==0)				{$tableM->create('core_pages');}
+		if($tableM->getId('core_jobs')==0)				{$tableM->create('core_jobs');}
 
 		$init = new initialisation();
 		
@@ -431,11 +533,19 @@ You cannot generate another config file. One are already present. Please go at t
 			$accessM->create($objectM->getId(getTableId('core_groups'),$groupM->getId('admins')),$objectM->getId(getTableId('core_plugins'),$pluginM->getId('core')),100);
 		}
 		if($accessM->getId($objectM->getId(getTableId('core_groups'),$groupM->getId('members')),$objectM->getId(getTableId('core_plugins'),$pluginM->getId('core')))==0)	{
-			$accessM->create($objectM->getId(getTableId('core_groups'),$groupM->getId('members')),$objectM->getId(getTableId('core_plugins'),$pluginM->getId('core')),10);
+			$accessM->create($objectM->getId(getTableId('core_groups'),$groupM->getId('members')),$objectM->getId(getTableId('core_plugins'),$pluginM->getId('core')),20);
 		}
 		if($accessM->getId($objectM->getId(getTableId('core_groups'),$groupM->getId('guests')),$objectM->getId(getTableId('core_plugins'),$pluginM->getId('core')))==0)	{
-			$accessM->create($objectM->getId(getTableId('core_groups'),$groupM->getId('guests')),$objectM->getId(getTableId('core_plugins'),$pluginM->getId('core')),0);
+			$accessM->create($objectM->getId(getTableId('core_groups'),$groupM->getId('guests')),$objectM->getId(getTableId('core_plugins'),$pluginM->getId('core')),10);
 		}
+		
+		// Add default job
+		echo ' - Fill jobs table<BR>';
+		$jobM = new jobManager();
+		$pluginM = new pluginManager();
+		if($jobM->getId($pluginM->getId('core'),'translate')==0)			{$jobM->create($pluginM->getId('core'),'translate');}
+		if($jobM->getId($pluginM->getId('core'),'backup')==0)				{$jobM->create($pluginM->getId('core'),'backup');}
+		if($jobM->getId($pluginM->getId('core'),'upkeep')==0)				{$jobM->create($pluginM->getId('core'),'upkeep');}
 		
 		// Add default parameter
 		echo ' - Fill parameters table<BR>';
@@ -491,6 +601,9 @@ You cannot generate another config file. One are already present. Please go at t
 		if($parameterM->getId(getPluginId('core'),'LANG_en_US')==0)			{$parameterM->create(getPluginId('core'),'LANG_en_US','PARTIAL','NONE');}
 		if($parameterM->getId(getPluginId('core'),'LANG_de_DE')==0)			{$parameterM->create(getPluginId('core'),'LANG_de_DE','NONE','NONE');}
 		if($parameterM->getId(getPluginId('core'),'LANG_it_IT')==0)			{$parameterM->create(getPluginId('core'),'LANG_it_IT','NONE','NONE');}
+
+		// Add pages
+		// TODO
 
 		echo '<BR><BR><a href="setup.php?s=23"><span class="icon iconfa-stackoverflow"> Fill the auxiliary tables</a>';
 		

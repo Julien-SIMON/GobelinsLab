@@ -104,7 +104,7 @@ class access extends dbEntry {
 		else
 		{
 			// TODO add log management
-			echo 'The access don\'t exist.';
+			echo 'The access doesn\'t exist.';
 			exit(100);
 		}
 	}

@@ -214,7 +214,7 @@ class user extends dbEntry {
 		$r0 = $q0->fetch(PDO::FETCH_OBJ);
 		if(isset($r0->ID))
 		{
-			$this->name = $r0->NAME;
+			$this->name = _($r0->NAME);
 			$this->avatar = $r0->AVATAR;
 			$this->mail = $r0->MAIL;
 			$this->objectId = $r0->OBJECTID;

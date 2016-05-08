@@ -20,10 +20,18 @@ switch ($a) {
 
         echo '
 Entrez le niveau d\'accréditation pour ce nouvel accès: <BR>
-<input name="secureLevel" type="text" value="0"> <BR>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon"><i class="icon iconastic-android-lock"></i></span>
+		<input name="secureLevel" type="text" class="form-control" value=""  placeholder="0, 10, ..., 100">
+	</div>
+</p>
 <input name="targetId" type="hidden" value="'.$targetId.'">
 <input name="sourceId" type="hidden" value="'.$sourceId.'">
-<input name="submit" value="Modifier" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_access&a=create\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
+
+<button type="button" class="btn btn-primary" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_access&a=create\',$(\'form#popupForm\').serialize());">
+Ajouter
+</button>	
 		';
     break;
     case 'create':
@@ -53,7 +61,7 @@ Entrez le niveau d\'accréditation pour ce nouvel accès: <BR>
 		
 		echo 'good!';
 			    
-		echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_access&a=list&targetId=\' + $(\'#targetAccessSelectInput\').val());</script>';
+		echo '<script type="text/javascript">dataTable.ajax.reload();</script>';
     break;
     case 'updateForm':
     	if(isset($_GET['targetId'])){$targetId=$_GET['targetId'];}elseif(isset($_POST['targetId'])){$targetId=$_POST['targetId'];}else{
@@ -70,10 +78,18 @@ Entrez le niveau d\'accréditation pour ce nouvel accès: <BR>
 
         echo '
 Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
-<input name="secureLevel" type="text" value="'.$access->secureLevel.'"> <BR>
+<p>
+	<div class="input-group">
+		<span class="input-group-addon"><i class="icon iconastic-android-lock"></i></span>
+		<input name="secureLevel" type="text" class="form-control" value="'.$access->secureLevel.'" placeholder="0, 10, ..., 100">
+	</div>
+</p>
 <input name="targetId" type="hidden" value="'.$targetId.'">
 <input name="sourceId" type="hidden" value="'.$sourceId.'">
-<input name="submit" value="Modifier" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_access&a=update\',$(\'form#popupForm\').serialize());" type="button" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b">
+
+<button type="button" class="btn btn-primary" onClick="popupFormSubmit(\'index.php?m=a&g=core&p=admin_access&a=update\',$(\'form#popupForm\').serialize());">
+Modifier
+</button>
 		';
     break;
     case 'update':
@@ -100,149 +116,7 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
 		
 		echo 'good!';
 			    
-		echo '<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_access&a=list&targetId=\' + $(\'#targetAccessSelectInput\').val());</script>';
-    break;
-    // Display the table content
-    case 'list':
-    	if(isset($_GET['targetId'])){$targetId=$_GET['targetId'];}elseif(isset($_POST['targetId'])){$targetId=$_POST['targetId'];}else{
-    		// TODO ERROR
-    		exit();
-    	}
-    	
-    	// List groups and users with access
-		$q0=get_link()->prepare("SELECT 
-									o.id AS SOURCEID,
-									a.secure_level AS SECURELEVEL,
-									g.name AS NAME
-								FROM 
-									".get_ini('BDD_PREFIX')."core_groups g,
-									".get_ini('BDD_PREFIX')."core_access a,
-									".get_ini('BDD_PREFIX')."core_tables t,
-									".get_ini('BDD_PREFIX')."core_objects o
-								WHERE  
-									t.name='core_groups' AND
-									t.id = o.id_table AND
-									o.id_ext = g.id AND
-									a.id_target=:id_target AND
-									a.id_source=o.id AND
-									g.deleted_date=0 AND
-									a.deleted_date=0 AND
-									t.deleted_date=0 AND
-									o.deleted_date=0
-								ORDER BY 
-									g.name ASC");
-		$q0->execute(array( "id_target" => $targetId ));
-		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
-		{
-		    echo '
-		<tr>
-		    <td><span class="iconfa-group"> '.$r0->NAME.'</span></td>
-		    <td>
-		        <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=updateForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');">'.$r0->SECURELEVEL.'</a>
-		    </td>
-		</tr>
-			';
-		}
-		$q0->closeCursor();
-		
-		$q0=get_link()->prepare("SELECT 
-									o.id AS SOURCEID,
-									a.secure_level AS SECURELEVEL,
-									u.name AS NAME
-								FROM 
-									".get_ini('BDD_PREFIX')."core_users u,
-									".get_ini('BDD_PREFIX')."core_access a,
-									".get_ini('BDD_PREFIX')."core_tables t,
-									".get_ini('BDD_PREFIX')."core_objects o
-								WHERE  
-									t.name='core_users' AND
-									t.id = o.id_table AND
-									o.id_ext = u.id AND
-									a.id_target=:id_target AND
-									a.id_source=o.id AND
-									u.deleted_date=0 AND
-									a.deleted_date=0 AND
-									t.deleted_date=0 AND
-									o.deleted_date=0
-								ORDER BY 
-									u.name ASC");
-		$q0->execute(array( "id_target" => $targetId ));
-		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
-		{
-		    echo '
-		<tr>
-		    <td><span class="iconfa-user"> '.$r0->NAME.'</span></td>
-		    <td>
-		        <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=updateForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');">'.$r0->SECURELEVEL.'</a>
-		    </td>
-		</tr>
-			';
-		}
-		$q0->closeCursor();
-		
-		$q0=get_link()->prepare("SELECT 
-									o.id AS SOURCEID,
-									'0' AS SECURELEVEL,
-									g.name AS NAME
-								FROM 
-									".get_ini('BDD_PREFIX')."core_groups g,
-									".get_ini('BDD_PREFIX')."core_tables t,
-									".get_ini('BDD_PREFIX')."core_objects o
-								WHERE  
-									t.name='core_groups' AND
-									t.id = o.id_table AND
-									o.id_ext = g.id AND
-									o.id NOT IN (SELECT ID_SOURCE FROM ".get_ini('BDD_PREFIX')."core_access WHERE id_target=:id_target AND deleted_date=0) AND
-									g.deleted_date=0 AND
-									t.deleted_date=0 AND
-									o.deleted_date=0
-								ORDER BY 
-									g.name ASC");
-		$q0->execute(array( "id_target" => $targetId ));
-		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
-		{
-		    echo '
-		<tr>
-		    <td><span class="iconfa-group"> '.$r0->NAME.'</span></td>
-		    <td>
-		        <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=createForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');">0</a>
-		    </td>
-		</tr>
-			';
-		}
-		$q0->closeCursor();
-		
-		$q0=get_link()->prepare("SELECT 
-									o.id AS SOURCEID,
-									'0' AS SECURELEVEL,
-									u.name AS NAME
-								FROM 
-									".get_ini('BDD_PREFIX')."core_users u,
-									".get_ini('BDD_PREFIX')."core_tables t,
-									".get_ini('BDD_PREFIX')."core_objects o
-								WHERE  
-									t.name='core_users' AND
-									t.id = o.id_table AND
-									o.id_ext = u.id AND
-									o.id NOT IN (SELECT ID_SOURCE FROM ".get_ini('BDD_PREFIX')."core_access WHERE id_target=:id_target AND deleted_date=0) AND
-									u.deleted_date=0 AND
-									t.deleted_date=0 AND
-									o.deleted_date=0
-								ORDER BY 
-									u.name ASC");
-		$q0->execute(array( "id_target" => $targetId ));
-		while( $r0 = $q0->fetch(PDO::FETCH_OBJ) )
-		{
-		    echo '
-		<tr>
-		    <td><span class="iconfa-user"> '.$r0->NAME.'</span></td>
-		    <td>
-		        <a href="#popup" data-rel="popup" data-position-to="window" onClick="insertLoader(\'#popupContent\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=createForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');">0</a>
-		    </td>
-		</tr>
-			'; 
-		}
-		$q0->closeCursor();
+		echo '<script type="text/javascript">dataTable.ajax.reload();</script>';
     break;
     case 'jsonList':
     	if(isset($_GET['targetId'])){$targetId=$_GET['targetId'];}elseif(isset($_POST['targetId'])){$targetId=$_POST['targetId'];}else{
@@ -281,8 +155,9 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
 				$dataArray['data'],
 				array( 
 					"NAME" => $r0->NAME ,
-					"ACCESS" => $r0->SECURELEVEL ,
-					"ACTION" => '' //<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=createForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');"><span class="iconastic-group"> Membres </span></a> <a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=update_form&id='.$r0->ID.'\');"><span class="iconastic-edit-write"> Modifier </span></a> <a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Supprimer le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=delete_form&id='.$r0->ID.'\');"><span class="iconastic-minus-line"> Supprimer</span></a>
+					"ACCESS" => '<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier les accès\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=updateForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');">'.$r0->SECURELEVEL.'</a>' ,
+					"ACTION" => ''  //<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=createForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');"><span class="iconastic-group"> Membres </span></a> <a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=update_form&id='.$r0->ID.'\');"><span class="iconastic-edit-write"> Modifier </span></a> <a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Supprimer le groupe\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_groups&a=delete_form&id='.$r0->ID.'\');"><span class="iconastic-minus-line"> Supprimer</span></a>
+									//<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier les accès\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=updateForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');">'.$r0->SECURELEVEL.'</a>
 				)
 			);
 		}
@@ -315,8 +190,8 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
 			array_push(
 				$dataArray['data'],
 				array( 
-					"NAME" => $r0->NAME ,
-					"ACCESS" => $r0->SECURELEVEL ,
+					"NAME" => _($r0->NAME) ,
+					"ACCESS" => '<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier les accès\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=updateForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');">'.$r0->SECURELEVEL.'</a>' ,
 					"ACTION" => ''
 				)
 			);
@@ -348,7 +223,7 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
 				$dataArray['data'],
 				array( 
 					"NAME" => $r0->NAME ,
-					"ACCESS" => $r0->SECURELEVEL ,
+					"ACCESS" => '<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier les accès\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=createForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');">'.$r0->SECURELEVEL.'</a>' ,
 					"ACTION" => ''
 				)
 			);
@@ -379,8 +254,8 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
 			array_push(
 				$dataArray['data'],
 				array( 
-					"NAME" => $r0->NAME ,
-					"ACCESS" => $r0->SECURELEVEL ,
+					"NAME" => _($r0->NAME) ,
+					"ACCESS" => '<a href="#" data-toggle="modal" data-target="#popup" onClick="insertLoader(\'#popupContent\');setPopupTitle(\'Modifier les accès\');$(\'#popupContent\').load(\'index.php?m=a&g=core&p=admin_access&a=createForm&targetId='.$targetId.'&sourceId='.$r0->SOURCEID.'\');">'.$r0->SECURELEVEL.'</a>' ,
 					"ACTION" => ''
 				)
 			);
@@ -391,7 +266,15 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
     break;
     // Display Html table container and select input
     default:
-    	echo '<select id="targetAccessSelectInput" name="targetId" onChange="$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_access&a=list&targetId=\' + $(this).val() );">';
+		echo '
+<div class="box">
+	<div class="box-header">
+		<h3 class="box-title">Liste des accès</h3>
+	</div>
+	<div class="box-body">
+
+    	<p>
+    		<select id="targetAccessSelectInput" name="targetId" class="form-control" onChange="dataTable.ajax.url(\'index.php?m=a&g=core&p=admin_access&a=jsonList&targetId=\' + $(this).val()).load();">';
 		$firstTargetId=0;
 		$q0=get_link()->prepare("SELECT 
 									o.id AS ID,
@@ -454,34 +337,16 @@ Entrez le nouveau niveau d\'accréditation pour cet accès: <BR>
 			    echo '<option value="'.$r1->ID.'"> - '.$r1->NAME.' ('.$r1->ACCESSSUM.')</option>';
 			}
 		}
-		echo '</select>';
-    	
-    	
 		echo '
-<table class="pretty-table">
-<thead>
-<tr>
-    <th>Object</th>
-    <th><span class="iconfa-lock"></span></th>
-</tr>
-</thead>
-<tbody id="tableList">
-<tr><td><img src="'.get_ini('LOADER').'"></td></tr>
-</tbody>
-</table>
-
-<script type="text/javascript">$( \'#tableList\' ).load(\'index.php?m=a&g=core&p=admin_access&a=list&targetId=\' + $(\'#targetAccessSelectInput\').val());</script>
-
-<div class="box">
-	<div class="box-header">
-		<h3 class="box-title">Liste des accès</h3>
-	</div>
-	<div class="box-body">
+			</select>
+		</p>
+			
+	
 		<table id="dataTable" class="table table-bordered table-striped">
 			<thead>
 				<tr>
-					<th>Objets</th>
-					<th></th>
+					<th>Users/Groups</th>
+					<th>Access</th>
 					<th><a href="#" onClick="dataTable.ajax.reload();"><span class="iconastic-refresh"> Rafraichir</a> </th>
 				</tr>
 			</thead>

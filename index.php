@@ -74,6 +74,8 @@ if(isset($_SESSION['auth_info_method'])&&isset($_SESSION['auth_info_login'])&&$_
 $user = new user($_SESSION['USER_ID']); 
 $_SESSION['USER_NAME']=$user->name;
 
+// Used for javascript and html uniq id
+$mtRand = mt_rand();
 
 // On définit les variables php
 //ini_set("SMTP", "smtp.squarebrain.eu:587");
@@ -191,6 +193,19 @@ function popupFormSubmit(url,data) {
 		}
 	} );
 }
+
+// Ajax request for background tasks
+function taskLoad() {
+	if($('#backgroundTaskLoad<?php echo $mtRand; ?>').length) {
+		$('#backgroundTaskLoad<?php echo $mtRand; ?>').delay(30000).queue(function( nxt ) {
+    		$(this).load('index.php?m=j',taskLoad());
+			nxt();
+		});
+	}
+}
+
+$(document).ready(function() { $('#backgroundTaskLoad<?php echo $mtRand; ?>').load('index.php?m=j');taskLoad(); });
+// ---------------------------------- //
 	</script>
 	
 	<style>
@@ -201,9 +216,9 @@ echo '@media (max-width: 60em) {#mainLogo {height: '.$logoHeight.'px;width: '.$l
 ?>
 	</style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue <?php $userM = new userManager();if($userM->getIdByName('#core#_#0#')==$_SESSION['USER_ID']){echo ' sidebar-collapse ';} ?> sidebar-mini">
 
-<div class="wrapper">
+<div class="wrapper" id="wrapper">
 	<header class="main-header">
 
 		<!-- Logo -->
@@ -228,15 +243,15 @@ echo '@media (max-width: 60em) {#mainLogo {height: '.$logoHeight.'px;width: '.$l
 				
 
 					<!-- processus -->
-<?php if($_SESSION['USER_NAME']!='#core#_#0#'){include_once('plugins/core/messages.php');} ?>
+<?php $userM = new userManager();if($userM->getIdByName('#core#_#0#')!=$_SESSION['USER_ID']){include_once('plugins/core/messages.php');} ?>
 					<!-- end processus -->   
 
 					<!-- events -->
-<?php if($_SESSION['USER_NAME']!='#core#_#0#'){include_once('plugins/core/events.php');} ?>
+<?php $userM = new userManager();if($userM->getIdByName('#core#_#0#')!=$_SESSION['USER_ID']){include_once('plugins/core/events.php');} ?>
 					<!-- end events -->  
 
 					<!-- processus -->
-<?php if($_SESSION['USER_NAME']!='#core#_#0#'){include_once('plugins/core/processus.php');} ?>
+<?php $userM = new userManager();if($userM->getIdByName('#core#_#0#')!=$_SESSION['USER_ID']){include_once('plugins/core/processus.php');} ?>
 					<!-- end processus -->   
     
 					<!-- language selection -->
@@ -257,7 +272,6 @@ echo '@media (max-width: 60em) {#mainLogo {height: '.$logoHeight.'px;width: '.$l
 	
 		</nav>
 	</header>
-
 
 	<!-- Left side column. contains the logo and sidebar -->
 	<aside class="main-sidebar">
@@ -317,14 +331,16 @@ else
 	<!-- end footer -->
 
 	<!-- Control Sidebar -->
-	<aside class="control-sidebar control-sidebar-dark">
+	<!-- <aside class="control-sidebar control-sidebar-dark">-->
 		<!-- settings tab -->
-<?php include_once('plugins/core/settings.php'); ?>
+<?php 
+//include_once('plugins/core/settings.php'); 
+?>
 		<!-- end settings tab -->
-	</aside>
+	<!--</aside>-->
 	<!-- /.control-sidebar -->
 	<!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
-	<div class="control-sidebar-bg"></div>
+	<!-- <div class="control-sidebar-bg"></div>-->
 
 </div>
 <!-- ./wrapper -->
@@ -352,6 +368,7 @@ else
 </div>
 <!-- end Modal -->
 
+<div id="backgroundTaskLoad<?php echo $mtRand; ?>" style="display: none;"></div>
 
 </body>
 </html>

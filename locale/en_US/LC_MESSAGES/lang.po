@@ -62,3 +62,39 @@ msgstr "Display all processus"
 msgid "#core#_#15#"
 msgstr "There is no running process"
 
+#: menu / Planificateur
+msgid "#core#_#16#"
+msgstr "Scheduler"
+
+#: menu / Statistiques
+msgid "#core#_#17#"
+msgstr "Statistics"
+
+#: task / lancement du job
+msgid "#core#_#18#"
+msgstr "load the job"
+
+#: task / Le fichier XML est invalide ou le fichier du processus n'existe pas.
+msgid "#core#_#19#"
+msgstr "XML file is not valid or process file does not exist."
+
+#: task / fin du job
+msgid "#core#_#20#"
+msgstr "end of the job"
+
+#: task / le job
+msgid "#core#_#21#"
+msgstr "the job"
+
+#: task / existe déjà
+msgid "#core#_#22#"
+msgstr "already exist"
+
+#: admin_jobs / Afin d'ajouter un nouveau job, assurez vous de nommer vos fichiers comme suit: .../plugins/.../task_..._loader.php
+msgid "#core#_#23#"
+msgstr "To add a new job, the script file need to be as following: .../plugins/.../task_..._loader.php"
+
+#: admin_jobs / Etes vous sûr de vouloir supprimer ce travail
+msgid "#core#_#24#"
+msgstr "Do you want to delete this job "
+

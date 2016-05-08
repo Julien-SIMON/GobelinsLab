@@ -14,6 +14,7 @@ require_once('plugins/core/_processus.class.php');
 require_once('plugins/core/_access.class.php');
 require_once('plugins/core/_object.class.php');
 require_once('plugins/core/_event_log.class.php');
+require_once('plugins/core/_job.class.php');
 
 /*
 	Classe de connexion

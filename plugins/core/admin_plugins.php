@@ -122,7 +122,7 @@ Modifier
 		    $blacklist = array('.', '..');
 			$pluginM = new pluginManager();
 		    while ($file = readdir($handle)) {
-		        if (!in_array($file, $blacklist)&&$pluginM->getId($file)==0&&!is_file($dir.'/'.$file)) {
+		        if (!in_array($file, $blacklist)&&$pluginM->getId($file)==0&&!is_file($dir.'/'.$file)&&$file!='sample') {
 					array_push(
 						$dataArray['data'],
 						array(

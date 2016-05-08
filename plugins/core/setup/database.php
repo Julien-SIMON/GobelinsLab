@@ -185,7 +185,7 @@ PRIMARY KEY (id)
 PRIMARY KEY (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=101' ,
 
-'CREATE TABLE IF NOT EXISTS <prefix>core_job (
+'CREATE TABLE IF NOT EXISTS <prefix>core_jobs (
 	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	id_plugin BIGINT UNSIGNED NOT NULL ,
 	page varchar(250),
@@ -203,9 +203,25 @@ PRIMARY KEY (id)
 'CREATE TABLE IF NOT EXISTS <prefix>core_job_scheduled (
 	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	id_job BIGINT UNSIGNED NOT NULL ,
-	start_day INT UNSIGNED NOT NULL ,
 	start_time INT UNSIGNED NOT NULL ,
-	polling_trigger MEDIUMTEXT ,
+	end_time   INT UNSIGNED NOT NULL ,
+	days varchar(20),
+	hours varchar(20),
+	minutes varchar(20),
+	created_date INT UNSIGNED DEFAULT NULL,
+	edited_date INT UNSIGNED DEFAULT NULL,
+	deleted_date INT UNSIGNED DEFAULT NULL,
+	created_id BIGINT UNSIGNED DEFAULT NULL,
+	edited_id BIGINT UNSIGNED DEFAULT NULL,
+	deleted_id BIGINT UNSIGNED DEFAULT NULL,
+PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=101' ,
+
+'CREATE TABLE IF NOT EXISTS <prefix>core_job_polling (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	id_job BIGINT UNSIGNED NOT NULL ,
+	start_time INT UNSIGNED NOT NULL ,
+	end_time   INT UNSIGNED NOT NULL ,
 	polling_time INT NOT NULL ,
 	created_date INT UNSIGNED DEFAULT NULL,
 	edited_date INT UNSIGNED DEFAULT NULL,
@@ -219,6 +235,7 @@ PRIMARY KEY (id)
 'CREATE TABLE IF NOT EXISTS <prefix>core_event_logs (
 	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 	id_plugin BIGINT UNSIGNED NOT NULL ,
+	id_user BIGINT UNSIGNED NOT NULL ,
 	log_statement varchar(250),
 	created_date INT UNSIGNED DEFAULT NULL,
 	edited_date INT UNSIGNED DEFAULT NULL,
@@ -265,6 +282,31 @@ PRIMARY KEY (id)
 	key varchar(30),
 	user_id BIGINT UNSIGNED NOT NULL,
 	expire_date INT UNSIGNED DEFAULT NULL,
+	created_date INT UNSIGNED DEFAULT NULL,
+	edited_date INT UNSIGNED DEFAULT NULL,
+	deleted_date INT UNSIGNED DEFAULT NULL,
+	created_id BIGINT UNSIGNED DEFAULT NULL,
+	edited_id BIGINT UNSIGNED DEFAULT NULL,
+	deleted_id BIGINT UNSIGNED DEFAULT NULL,
+PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101' ,
+
+'CREATE TABLE IF NOT EXISTS <prefix>core_statistics (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	hash_ip varchar(25),
+	created_date INT UNSIGNED DEFAULT NULL,
+	edited_date INT UNSIGNED DEFAULT NULL,
+	deleted_date INT UNSIGNED DEFAULT NULL,
+	created_id BIGINT UNSIGNED DEFAULT NULL,
+	edited_id BIGINT UNSIGNED DEFAULT NULL,
+	deleted_id BIGINT UNSIGNED DEFAULT NULL,
+PRIMARY KEY (id)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=101' ,
+
+'CREATE TABLE IF NOT EXISTS <prefix>core_stat_summary (
+	id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	key varchar(25),
+	value varchar(25),
 	created_date INT UNSIGNED DEFAULT NULL,
 	edited_date INT UNSIGNED DEFAULT NULL,
 	deleted_date INT UNSIGNED DEFAULT NULL,
@@ -457,7 +499,7 @@ deleted_id   		INTEGER NOT NULL
 )' ,
 'ALTER TABLE <prefix>core_processus ADD CONSTRAINT <prefix>core_processusPK PRIMARY KEY (id)' ,
 
-'CREATE TABLE <prefix>core_job (
+'CREATE TABLE <prefix>core_jobs (
 id        			INTEGER NOT NULL ,
 id_plugin 			INTEGER NOT NULL ,
 page				VARCHAR2 (250) ,
@@ -475,10 +517,11 @@ deleted_id  		INTEGER NOT NULL
 'CREATE TABLE <prefix>core_job_scheduled (
 id        			INTEGER NOT NULL ,
 id_job	 			INTEGER NOT NULL ,
-start_day 			INTEGER NOT NULL ,
-start_time 			INTEGER NOT NULL ,
-polling_trigger 	CLOB ,
-polling_time		INTEGER NOT NULL ,
+start_time			INTEGER NOT NULL ,
+end_time  			INTEGER NOT NULL ,
+days 				VARCHAR2 (20),
+hours 				VARCHAR2 (20),
+minutes				VARCHAR2 (20),
 created_date 		INTEGER NOT NULL ,
 edited_date  		INTEGER NOT NULL ,
 deleted_date 		INTEGER NOT NULL ,
@@ -488,9 +531,25 @@ deleted_id   		INTEGER NOT NULL
 )' ,
 'ALTER TABLE <prefix>core_job_scheduled ADD CONSTRAINT <prefix>core_job_scheduledPK PRIMARY KEY (id)' ,
 
+'CREATE TABLE <prefix>core_job_polling (
+id        			INTEGER NOT NULL ,
+id_job	 			INTEGER NOT NULL ,
+start_time 			INTEGER NOT NULL ,
+end_time 			INTEGER NOT NULL ,
+polling_time		INTEGER NOT NULL ,
+created_date 		INTEGER NOT NULL ,
+edited_date  		INTEGER NOT NULL ,
+deleted_date 		INTEGER NOT NULL ,
+created_id   		INTEGER NOT NULL ,
+edited_id    		INTEGER NOT NULL ,
+deleted_id   		INTEGER NOT NULL
+)' ,
+'ALTER TABLE <prefix>core_job_polling ADD CONSTRAINT <prefix>core_job_pollingPK PRIMARY KEY (id)' ,
+
 'CREATE TABLE <prefix>core_event_logs (
 id        			INTEGER NOT NULL ,
 id_plugin 			INTEGER NOT NULL ,
+id_user 			INTEGER NOT NULL ,
 log_statement		VARCHAR2 (250) ,
 created_date 		INTEGER NOT NULL ,
 edited_date  		INTEGER NOT NULL ,
@@ -544,7 +603,31 @@ created_id   		INTEGER NOT NULL ,
 edited_id    		INTEGER NOT NULL ,
 deleted_id   		INTEGER NOT NULL
 )' ,
-'ALTER TABLE <prefix>core_user_caches ADD CONSTRAINT <prefix>core_user_cachesPK PRIMARY KEY (id)'
-);
+'ALTER TABLE <prefix>core_user_caches ADD CONSTRAINT <prefix>core_user_cachesPK PRIMARY KEY (id)' ,
 
+'CREATE TABLE <prefix>core_statistics (
+id        			INTEGER NOT NULL ,
+hash_ip				VARCHAR2 (25) ,
+created_date 		INTEGER NOT NULL ,
+edited_date  		INTEGER NOT NULL ,
+deleted_date 		INTEGER NOT NULL ,
+created_id   		INTEGER NOT NULL ,
+edited_id    		INTEGER NOT NULL ,
+deleted_id   		INTEGER NOT NULL
+)' ,
+'ALTER TABLE <prefix>core_statistics ADD CONSTRAINT <prefix>core_statisticsPK PRIMARY KEY (id)' ,
+
+'CREATE TABLE <prefix>core_stat_summary (
+id        			INTEGER NOT NULL ,
+jey					VARCHAR2 (25) ,
+value 				VARCHAR2 (25) ,
+created_date 		INTEGER NOT NULL ,
+edited_date  		INTEGER NOT NULL ,
+deleted_date 		INTEGER NOT NULL ,
+created_id   		INTEGER NOT NULL ,
+edited_id    		INTEGER NOT NULL ,
+deleted_id   		INTEGER NOT NULL
+)' ,
+'ALTER TABLE <prefix>core_stat_summary ADD CONSTRAINT <prefix>core_stat_summaryPK PRIMARY KEY (id)'
+);
 ?>
